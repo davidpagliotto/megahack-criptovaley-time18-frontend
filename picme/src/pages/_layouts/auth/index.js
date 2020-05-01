@@ -6,7 +6,7 @@ import * as S from './styles';
 export default function AuthLayout({ children }) {
   return (
     <S.AuthLayoutWrapper>
-      <>{children}</>
+      <S.AuthContent>{children}</S.AuthContent>
     </S.AuthLayoutWrapper>
   );
 }
