@@ -1,26 +1,26 @@
 ## Execurtar o Projeto
 
-Após o download o mesmo, no diretório executar o seguinte comando pelo do terminal para instalar
+Após o download do mesmo, no diretório executar o seguinte comando no terminal para instalar
 todas as dependências que o projeto precisa para ser executado.
 
 Caso utilize o npm executar:
 
-### `npm install`
+#### `npm install`
 
 Caso utilize o yarn executar:
 
-### `yarn`
+#### `yarn`
 
-Após todos as dependências serem baixaas sem nenhum erro, para deixar o projeto "no ar",
+Após todos as dependências serem baixadas corretamente, para deixar o projeto "no ar",
 executar o seguinte comando:
 
 NPM:
 
-### `npm start`
+#### `npm start`
 
 yarn:
 
-### `yarn start`
+#### `yarn start`
 
 Se tudo ocorreu correntamente no console irá ser apresentado o endereço em que
 o projeto está sendo executado. ;) 🚀
