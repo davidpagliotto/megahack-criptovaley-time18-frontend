@@ -8,19 +8,28 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  *:focus {
+    outline: 0;
+  }
+
   html, body, #root {
     min-height: 100%;
   }
 
   body {
-    background: #fff;
     -webkit-font-smoothing: antialiased !important;
   }
 
   body, input, button {
-    color: #222;
-    font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif;
+    font: 14px Arial, Helvetica, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
   }
 
   button: {
