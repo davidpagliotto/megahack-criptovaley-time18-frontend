@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Web3Provider } from 'react-web3';
 
 import AuthLayout from '~/pages/_layouts/auth';
 import DefaultLayout from '~/pages/_layouts/default';
@@ -10,19 +11,30 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }) {
-  const signed = false;
+  const signed = true;
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="dashboard" />;
+    return <Redirect to="/dashboard" />;
   }
 
   const Layout = signed ? DefaultLayout : AuthLayout;
 
-  return (
+  return signed ? (
+    <Route
+      {...rest}
+      render={(props) => (
+        <Web3Provider>
+          <Layout>
+            <Component {...props} />
+          </Layout>
+        </Web3Provider>
+      )}
+    />
+  ) : (
     <Route
       {...rest}
       render={(props) => (
