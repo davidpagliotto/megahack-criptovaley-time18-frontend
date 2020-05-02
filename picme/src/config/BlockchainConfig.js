@@ -1,100 +1,158 @@
-export const CONTRACT_ADDRESS = '0x3a2f534413c314d48fce4de3b7638188d50fbde2';
+export const CONTRACT_ADDRESS = '0x3eb56C6744F3515a35C46117C55DDd59284cb62a';
 
 export const CONTRACT_ABI = [
   {
-    constant: false,
-    inputs: [
+    "constant": false,
+    "inputs": [
       {
-        internalType: 'bytes32',
-        name: 'hashStationValue',
-        type: 'bytes32',
-      },
+        "name": "to",
+        "type": "address"
+      }
     ],
-    name: 'findStationValue',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    payable: true,
-    stateMutability: 'payable',
-    type: 'function',
+    "name": "add_admins",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    constant: false,
-    inputs: [],
-    name: 'withdraw',
-    outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    "constant": false,
+    "inputs": [
+      {
+        "name": "to",
+        "type": "address"
+      }
+    ],
+    "name": "add_healthfacilities",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    constant: false,
-    inputs: [
+    "constant": false,
+    "inputs": [
       {
-        internalType: 'bytes32',
-        name: 'hashStation',
-        type: 'bytes32',
+        "name": "batchAddress",
+        "type": "address"
       },
-    ],
-    name: 'findStation',
-    outputs: [
       {
-        internalType: 'address',
-        name: '',
-        type: 'address',
+        "name": "supplier",
+        "type": "address"
       },
+      {
+        "name": "origin",
+        "type": "address"
+      },
+      {
+        "name": "geolocation",
+        "type": "string"
+      },
+      {
+        "name": "document_number",
+        "type": "string"
+      },
+      {
+        "name": "nf",
+        "type": "string"
+      },
+      {
+        "name": "document",
+        "type": "string"
+      }
     ],
-    payable: true,
-    stateMutability: 'payable',
-    type: 'function',
+    "name": "insertBatch",
+    "outputs": [
+      {
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    constant: false,
-    inputs: [
+    "inputs": [
       {
-        internalType: 'bytes32',
-        name: 'hashStationValue',
-        type: 'bytes32',
+        "name": "admins",
+        "type": "address[]"
       },
+      {
+        "name": "heathfacilities",
+        "type": "address[]"
+      }
     ],
-    name: 'registerStationValue',
-    outputs: [],
-    payable: true,
-    stateMutability: 'payable',
-    type: 'function',
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
-    constant: true,
-    inputs: [],
-    name: 'revenues',
-    outputs: [
+    "constant": true,
+    "inputs": [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
+        "name": "batchAddress",
+        "type": "address"
+      }
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    "name": "getBatch",
+    "outputs": [
+      {
+        "name": "geolocation",
+        "type": "string"
+      },
+      {
+        "name": "document",
+        "type": "string"
+      },
+      {
+        "name": "document_number",
+        "type": "string"
+      },
+      {
+        "name": "nf",
+        "type": "string"
+      },
+      {
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    constant: false,
-    inputs: [
+    "constant": true,
+    "inputs": [],
+    "name": "getBatchCount",
+    "outputs": [
       {
-        internalType: 'bytes32',
-        name: 'hashStation',
-        type: 'bytes32',
-      },
+        "name": "count",
+        "type": "uint256"
+      }
     ],
-    name: 'registerStation',
-    outputs: [],
-    payable: true,
-    stateMutability: 'payable',
-    type: 'function',
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "batchAddress",
+        "type": "address"
+      }
+    ],
+    "name": "isBatch",
+    "outputs": [
+      {
+        "name": "isIndeed",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  }
 ];
