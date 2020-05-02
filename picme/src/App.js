@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 
 import './config/reactotronConfig';
+import { ToastContainer } from 'react-toastify';
 
 import Routes from './routes';
 import history from './services/history';
@@ -18,6 +19,7 @@ export default function App() {
       <PersistGate persistor={persistor}>
         <Router history={history}>
           <GlobalStyle />
+          <ToastContainer autoClose={3000} />
           <Routes />
         </Router>
       </PersistGate>

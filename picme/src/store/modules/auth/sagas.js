@@ -1,4 +1,5 @@
 import { takeLatest, put, call, all } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 import { signInSuccess } from '~/store/modules/auth/actions';
@@ -16,7 +17,9 @@ export function* signIn({ payload }) {
 
     yield put(signInSuccess(token, name));
     history.push('/dashboard');
-  } catch (error) {}
+  } catch (error) {
+    toast.error('Erro na autenticação, verifique seus dados');
+  }
 }
 
 export default all([takeLatest('@auth/SIGN_IN_REQUEST', signIn)]);
