@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Web3Provider } from 'react-web3';
+import { useSelector } from 'react-redux';
+import Web3Provider from '~/components/Web3Provider';
 
 import AuthLayout from '~/pages/_layouts/auth';
 import DefaultLayout from '~/pages/_layouts/default';
@@ -11,7 +12,7 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }) {
-  const signed = true;
+  const { signed } = useSelector((state) => state.auth);
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
@@ -27,11 +28,11 @@ export default function RouteWrapper({
     <Route
       {...rest}
       render={(props) => (
-        <Web3Provider>
-          <Layout>
+        <Layout>
+          <Web3Provider>
             <Component {...props} />
-          </Layout>
-        </Web3Provider>
+          </Web3Provider>
+        </Layout>
       )}
     />
   ) : (

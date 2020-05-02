@@ -1,11 +1,21 @@
-import React, { Component } from 'react';
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from '../../config/BlockchainConfig';
+import React, { useContext } from 'react';
+import web3 from '~/contexts/web3';
+// import { CONTRACT_ADDRESS, CONTRACT_ABI } from '../../config/BlockchainConfig';
 
-const Web3 = require('web3');
-const Eth = require('web3-eth');
+// const Web3 = require('web3');
+// const Eth = require('web3-eth');
 
-export default function Dashboard() {
-  return <h1>Hello Word</h1>;
+export default function Dashboard(props) {
+  // const [mask, setMask] = useState(context);
+  // console.log('context', context);
+  const web3c = useContext(web3);
+  console.log('context', web3c);
+
+  return (
+    <>
+      <h1>Hello</h1>
+    </>
+  );
 }
 
 // class Dashboard extends Component {
