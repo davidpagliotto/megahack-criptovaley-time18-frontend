@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import logo from '~/assets/logo.png';
+
+import { signInRequest } from '~/store/modules/auth/actions';
 
 import * as S from './styles';
 
 export default function Login() {
   const [selectedTab, setSelectedTab] = useState('login');
   const [userData, setUserData] = useState({});
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setUserData({
@@ -17,7 +21,7 @@ export default function Login() {
 
   const handleClick = (event) => {
     event.preventDefault();
-    console.log(userData);
+    dispatch(signInRequest(userData.email, userData.password));
   };
 
   return (
