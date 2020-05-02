@@ -4,7 +4,7 @@ import api from '~/services/api';
 import history from '~/services/history';
 import { signInSuccess } from '~/store/modules/auth/actions';
 
-export function* signIn({ payload }) {
+function* signIn({ payload }) {
   const { email, password } = payload;
 
   try {
@@ -15,6 +15,8 @@ export function* signIn({ payload }) {
 
     const { token, name } = response.data;
 
+    api.defaults.headers['x-api-key'] = token;
+
     yield put(signInSuccess(token, name));
     history.push('/dashboard');
   } catch (error) {
@@ -22,4 +24,17 @@ export function* signIn({ payload }) {
   }
 }
 
-export default all([takeLatest('@auth/SIGN_IN_REQUEST', signIn)]);
+function setToken({ payload }) {
+  if (!payload) return;
+
+  const { token } = payload.auth;
+
+  if (token) {
+    api.defaults.headers['x-api-key'] = token;
+  }
+}
+
+export default all([
+  takeLatest('persist/REHYDRATE', setToken),
+  takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+]);
