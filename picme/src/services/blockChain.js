@@ -1,4 +1,4 @@
-import {CONTRACT_ADDRESS, CONTRACT_ABI} from '~/config/BlockchainConfig';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from '~/config/BlockchainConfig';
 
 const Web3 = require('web3');
 const CryptoJS = require('crypto-js');
@@ -24,7 +24,7 @@ export const getAccount = async () => {
 
 export const getBatchCount = async () => {
   const batchCount = await getContract().methods.getBatchCount().call();
-  console.log("batchCount = ", batchCount)
+  console.log('batchCount = ', batchCount);
   return batchCount;
 };
 
@@ -45,64 +45,65 @@ export const insertBatch = async (
   ];
 
   // verifica o número de lotes existentes
-  getBatchCount()
+  getBatchCount();
 
-  const account = await getAccount()
+  const account = await getAccount();
 
-  console.log(account)
+  console.log(account);
 
   getContract()
-    .methods.insertBatch(
-    ...batchParam
-  )
+    .methods.insertBatch(...batchParam)
     .send({
       from: account,
     })
     .on('transactionHash', (hash) => {
       // TODO: Enviar essa hash para API
-      console.log("TransactionHash", hash, batchParam);
+      console.log('TransactionHash', hash, batchParam);
     });
 };
 
 export const insertTransactionBatch = async (batchAddress) => {
   const transactionBatchParam = [
     `0x${CryptoJS.lib.WordArray.random(20)}`,
-    batchAddress
-  ]
+    batchAddress,
+  ];
 
-  const account = await getAccount()
+  const account = await getAccount();
 
   getContract()
-    .methods.insertTransactionBatch(
-    ...transactionBatchParam
-  ).send({
-    from: account,
-  })
+    .methods.insertTransactionBatch(...transactionBatchParam)
+    .send({
+      from: account,
+    })
     .on('transactionHash', (hash) => {
       // TODO: Enviar essa hash para API
-      console.log("TransactionHash", hash, transactionBatchParam);
+      console.log('TransactionHash', hash, transactionBatchParam);
     });
 };
 
-export const insertVaccinate = async (batchAddress, document_number, document, vaccine) => {
+export const insertVaccinate = async (
+  batchAddress,
+  document_number,
+  document,
+  vaccine
+) => {
   const vaccinateParams = [
     `0x${CryptoJS.lib.WordArray.random(20)}`,
     batchAddress,
     document_number,
     document,
-    vaccine
-  ]
+    vaccine,
+  ];
 
-  const account = await getAccount()
+  const account = await getAccount();
 
   getContract()
-    .methods.insertVaccinate(
-    ...vaccinateParams
-  ).send({
-    from: account,
-  })
+    .methods.insertVaccinate(...vaccinateParams)
+    .send({
+      from: account,
+    })
     .on('transactionHash', (hash) => {
       // TODO: Enviar essa hash para API
-      console.log("TransactionHash", hash, vaccinateParams);
+      console.log('TransactionHash', hash, vaccinateParams);
     });
 };
