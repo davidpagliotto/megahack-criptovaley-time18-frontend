@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const SubmenuWrapper = styled.div`
   width: 100%;
-  height: 3rem;
+
   padding: 3px;
 `;
 
