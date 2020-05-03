@@ -18,6 +18,10 @@ export default function auth(state = INITIAL_STATE, action) {
         draft.signed = true;
         break;
       }
+      case 'web3/RECEIVE_ACCOUNT': {
+        console.log('action', action);
+        break;
+      }
       default:
     }
   });
