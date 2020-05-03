@@ -48,7 +48,7 @@ export default function Dashboard() {
       'CPF',
       'BCG'
     );
-    console.log('Vaccinate', response);
+    console.log('VaccinateRegistration', response);
   };
 
   return (

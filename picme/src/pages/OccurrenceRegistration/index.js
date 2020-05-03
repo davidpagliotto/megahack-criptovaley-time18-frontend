@@ -6,9 +6,9 @@ import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
 
-const DOCTYPES = ['CNPJ', 'CPF'];
+const DOCTYPES = ['CPF', 'SUS', 'PASSAPORTE'];
 
-export default function BatchRegistration() {
+export default function OccurrenceRegistration() {
   const [supplies, setSupplies] = useState([]);
   const [batchAddress, setBatchAddress] = useState('');
   const [formData, setFormData] = useState({});
@@ -108,23 +108,25 @@ export default function BatchRegistration() {
       <S.BatchContent>
         <S.BatchTitleContainer>
           <S.BatchTitleContainerItem>
-            Cadastro de Lotes
+            Cadastro de Ocorrência
           </S.BatchTitleContainerItem>
         </S.BatchTitleContainer>
-        <S.Select name="supplier" onChange={handleChange}>
-          <S.SelectOption value="">Selecione um laboratório (fornecedor)</S.SelectOption>
+        <S.Select name="batch" onChange={handleChange}>
+          <S.SelectOption value="">Selecione um lote</S.SelectOption>
           {supplies.map((item) => (
             <S.SelectOption key={item.guid} value={item.address}>
               {item.full_name}
             </S.SelectOption>
           ))}
         </S.Select>
-        <S.Input
-          placeholder="Número do lote"
-          name="address"
-          disabled
-          value={batchAddress}
-        />
+        <S.Select name="vaccine" onChange={handleChange}>
+          <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
+        {supplies.map((item) => (
+          <S.SelectOption key={item.guid} value={item.address}>
+          {item.full_name}
+          </S.SelectOption>
+        ))}
+      </S.Select>
         <S.Input placeholder="Geolocalização" disabled />
         <S.Select>
           {DOCTYPES.map((option) => (
