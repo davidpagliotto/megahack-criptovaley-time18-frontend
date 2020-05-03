@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 
 import api from '~/services/api';
-import {insertBatch, insertTransactionBatch, insertVaccinate} from '~/services/blockChain';
+import {
+  insertBatch,
+  insertTransactionBatch,
+  insertVaccinate,
+} from '~/services/blockChain';
+
+import * as S from './styles';
 
 export default function Dashboard() {
   useEffect(() => {
@@ -22,28 +28,28 @@ export default function Dashboard() {
       '001',
       'NF'
     );
-    console.log("Batch", response);
+    console.log('Batch', response);
 
     response = await insertTransactionBatch(
-      "0xef5351ac8b9ea2e0946072d598c11ca26472f5da",
+      '0xef5351ac8b9ea2e0946072d598c11ca26472f5da'
     );
-    console.log("Transaction batch", response);
+    console.log('Transaction batch', response);
 
     response = await insertVaccinate(
-      "0xef5351ac8b9ea2e0946072d598c11ca26472f5da",
+      '0xef5351ac8b9ea2e0946072d598c11ca26472f5da',
       '001.001.001-01',
       'CPF',
       'BCG'
     );
-    console.log("Vaccinate", response);
+    console.log('Vaccinate', response);
   };
 
   return (
-    <>
+    <S.DashboardWrapper>
       <h1>Hello</h1>
       <button type="button" onClick={handleClick}>
         LANÇAR
       </button>
-    </>
+    </S.DashboardWrapper>
   );
 }
