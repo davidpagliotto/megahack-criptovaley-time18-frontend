@@ -9,7 +9,7 @@ export const BatchWrapper = styled.div`
 export const BatchContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 64rem;
+  // width: 64rem;
   margin: 0 auto;
 `;
 

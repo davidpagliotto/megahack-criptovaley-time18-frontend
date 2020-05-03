@@ -117,13 +117,14 @@ export const insertVaccinate = async (
 };
 
 export const insertOccurrence = async (
+  occurrenceAddress,
   batchAddress,
   document_number,
   document,
   vaccine
 ) => {
   const occurrenceParams = [
-    `0x${CryptoJS.lib.WordArray.random(20)}`,
+    occurrenceAddress,
     batchAddress,
     document_number,
     document,
