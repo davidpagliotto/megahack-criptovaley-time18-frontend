@@ -3,7 +3,6 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import MetamaskChecker from '@metamask-checker/react';
 import AuthLayout from '~/pages/_layouts/auth';
 import DefaultLayout from '~/pages/_layouts/default';
 
@@ -13,6 +12,7 @@ export default function RouteWrapper({
   ...rest
 }) {
   const { signed } = useSelector((state) => state.auth);
+  const haveCurrentProvider = window.web3 && window.web3.currentProvider;
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
@@ -24,25 +24,17 @@ export default function RouteWrapper({
 
   const Layout = signed ? DefaultLayout : AuthLayout;
 
-  return (
+  return haveCurrentProvider ? (
     <Route
       {...rest}
       render={(props) => (
         <Layout>
-          <MetamaskChecker
-            renderChecked={(provider, account, network) => (
-              <Component
-                provider={provider}
-                account={account}
-                network={network}
-                {...props}
-              />
-            )}
-            renderErrored={(error) => <h1>Deu Erro</h1>}
-          />
+          <Component {...props} />
         </Layout>
       )}
     />
+  ) : (
+    <h1>Configurar conta na extensão do chrome</h1>
   );
 }
 
