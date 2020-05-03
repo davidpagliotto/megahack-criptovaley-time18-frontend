@@ -24,3 +24,9 @@ export function signInFailure() {
     type: '@auth/SIGN_FAILURE',
   };
 }
+
+export function receiveAccount() {
+  return {
+    type: 'web3/RECEIVE_ACCOUNT',
+  };
+}
