@@ -89,13 +89,14 @@ export const insertTransactionBatch = async (batchAddress) => {
 };
 
 export const insertVaccinate = async (
+  vaccinateAddress,
   batchAddress,
   document_number,
   document,
   vaccine
 ) => {
   const vaccinateParams = [
-    `0x${CryptoJS.lib.WordArray.random(20)}`,
+    vaccinateAddress,
     batchAddress,
     document_number,
     document,
