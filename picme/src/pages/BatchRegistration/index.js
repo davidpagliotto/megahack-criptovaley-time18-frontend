@@ -9,6 +9,7 @@ const CryptoJS = require('crypto-js');
 const DOCTYPES = ['CNPJ', 'CPF'];
 
 export default function BatchRegistration() {
+  const [geolocation, setGeolocation] = useState([]);
   const [supplies, setSupplies] = useState([]);
   const [batchAddress, setBatchAddress] = useState('');
   const [formData, setFormData] = useState({});
@@ -103,6 +104,20 @@ export default function BatchRegistration() {
     loadSupplier();
   }, []);
 
+  useEffect(() => {
+    const loadGeolocation  = async () => {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
+      },
+      function (error) {
+        console.error("Error Code = " + error.code + " - " + error.message);
+      }
+    )};
+
+    loadGeolocation();
+  }, []);
+
   return (
     <S.BatchWrapper>
       <S.BatchContent>
@@ -125,7 +140,8 @@ export default function BatchRegistration() {
           disabled
           value={batchAddress}
         />
-        <S.Input placeholder="Geolocalização" disabled />
+        <S.Input placeholder="Geolocalização" disabled
+          value={geolocation}/>
         <S.Select>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>

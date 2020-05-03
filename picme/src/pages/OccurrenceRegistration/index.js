@@ -6,9 +6,10 @@ import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
 
-const DOCTYPES = ['CPF', 'SUS', 'PASSAPORTE'];
+const DOCTYPES = ['CPF', 'RG', 'CNH', 'PASSAPORT', 'OTHER'];
 
 export default function OccurrenceRegistration() {
+  const [geolocation, setGeolocation] = useState([]);
   const [batches, setBatches] = useState([]);
   const [vaccines, setVaccines] = useState([]);
   const [batchAddress, setBatchAddress] = useState('');
@@ -83,6 +84,10 @@ export default function OccurrenceRegistration() {
       setBatches(batchList);
     };
 
+    loadBatch();
+  }, []);
+
+  useEffect(() => {
     const loadVaccine = async () => {
       const response = await api.get('/vaccine');
 
@@ -92,9 +97,21 @@ export default function OccurrenceRegistration() {
       setVaccines(vaccineList);
     };
 
-    loadBatch();
-
     loadVaccine();
+  }, []);
+
+  useEffect(() => {
+    const loadGeolocation  = async () => {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
+        },
+        function (error) {
+          console.error("Error Code = " + error.code + " - " + error.message);
+        }
+      )};
+
+    loadGeolocation();
   }, []);
 
   return (
@@ -121,7 +138,8 @@ export default function OccurrenceRegistration() {
           </S.SelectOption>
         ))}
       </S.Select>
-        <S.Input placeholder="Geolocalização" disabled />
+        <S.Input placeholder="Geolocalização" disabled
+          value={geolocation}/>
         <S.Select>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>

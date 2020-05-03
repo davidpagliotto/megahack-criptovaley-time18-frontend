@@ -6,9 +6,10 @@ import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
 
-const DOCTYPES = ['CPF', 'SUS', 'PASSAPORTE'];
+const DOCTYPES = ['CPF', 'RG', 'CNH', 'PASSAPORT', 'OTHER'];
 
 export default function VaccinateRegistration() {
+  const [geolocation, setGeolocation] = useState([]);
   const [batches, setBatches] = useState([]);
   const [vaccines, setVaccines] = useState([]);
   const [batchAddress, setBatchAddress] = useState('');
@@ -102,6 +103,20 @@ export default function VaccinateRegistration() {
     loadVaccine();
   }, []);
 
+  useEffect(() => {
+    const loadGeolocation  = async () => {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
+        },
+        function (error) {
+          console.error("Error Code = " + error.code + " - " + error.message);
+        }
+      )};
+
+    loadGeolocation();
+  }, []);
+
   return (
     <S.BatchWrapper>
       <S.BatchContent>
@@ -126,7 +141,8 @@ export default function VaccinateRegistration() {
           </S.SelectOption>
         ))}
       </S.Select>
-        <S.Input placeholder="Geolocalização" disabled />
+        <S.Input placeholder="Geolocalização" disabled
+          value={geolocation}/>
         <S.Select>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
