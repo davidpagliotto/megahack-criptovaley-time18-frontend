@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { envVariables } from '~/env';
 
 const api = axios.create({
-  baseURL: 'http://18.228.44.240:8080/',
+  baseURL: envVariables.API_ADDRESS,
 });
 
 export default api;
