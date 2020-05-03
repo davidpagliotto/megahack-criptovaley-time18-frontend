@@ -13,7 +13,6 @@ export default function RouteWrapper({
 }) {
   const { signed } = useSelector((state) => state.auth);
   const haveCurrentProvider = window.web3 && window.web3.currentProvider;
-  console.log('haveCurrentProvider', haveCurrentProvider);
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
