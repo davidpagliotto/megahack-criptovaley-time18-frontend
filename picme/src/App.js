@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import './config/reactotronConfig';
+import './config/ReactotronConfig';
 
 import Routes from './routes';
 import history from './services/history';

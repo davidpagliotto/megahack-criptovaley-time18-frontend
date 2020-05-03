@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
 import api from '~/services/api';
+<<<<<<< HEAD
 import {
   insertBatch,
   insertTransactionBatch,
@@ -8,6 +9,9 @@ import {
 } from '~/services/blockChain';
 
 import * as S from './styles';
+=======
+import {insertBatch, insertOccurrence, insertTransactionBatch, insertVaccinate} from '~/services/blockChain';
+>>>>>>> upstream/master
 
 export default function Dashboard() {
   useEffect(() => {
@@ -21,6 +25,17 @@ export default function Dashboard() {
   }, []);
 
   const handleClick = async () => {
+
+    // get geolocation
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log({"latitude": position.coords.latitude, "longitude": position.coords.longitude});
+      },
+      (error) => {
+        console.error("Error Code = " + error.code + " - " + error.message);
+      }
+    );
+
     let response = await insertBatch(
       null,
       '0x1772976766B5C5C01EbfcACBD3C7157DDd9DCf95',
