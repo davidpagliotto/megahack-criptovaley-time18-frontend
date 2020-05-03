@@ -116,6 +116,19 @@ export const insertVaccinate = async (
     });
 };
 
+export const addHealthFacilities = async (address) => {
+  const account = await getAccount();
+
+  getContract()
+    .methods.add_healthfacilities(address)
+    .send({
+      from: account,
+    })
+    .on('transactionHash', (hash) => {
+      console.log('TransactionHash', hash);
+    });
+}
+
 export const insertOccurrence = async (
   occurrenceAddress,
   batchAddress,

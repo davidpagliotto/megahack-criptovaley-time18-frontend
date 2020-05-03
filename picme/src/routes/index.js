@@ -7,6 +7,7 @@ import Profile from '~/pages/Profile';
 import BatchRegistration from '~/pages/BatchRegistration';
 import VaccinateRegistration from '~/pages/VaccinateRegistration';
 import OccurrenceRegistration from '~/pages/OccurrenceRegistration';
+import HealthFacilityPermission from '~/pages/HealthFacilityPermission';
 
 import Login from '../pages/Login';
 
@@ -20,6 +21,7 @@ export default function Routes() {
       <Route path="/batch" component={BatchRegistration} isPrivate />
       <Route path="/vaccinate" component={VaccinateRegistration} isPrivate />
       <Route path="/occurrence" component={OccurrenceRegistration} isPrivate />
+      <Route path="/healthfacility" component={HealthFacilityPermission} isPrivate />
     </Switch>
   );
 }
