@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import api from '~/services/api';
-import {insertBatch, insertTransactionBatch, insertVaccinate} from '~/services/blockChain';
+import {insertBatch, insertOccurrence, insertTransactionBatch, insertVaccinate} from '~/services/blockChain';
 
 export default function Dashboard() {
   useEffect(() => {
@@ -15,6 +15,17 @@ export default function Dashboard() {
   }, []);
 
   const handleClick = async () => {
+
+    // get geolocation
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        console.log(position.latitude, position.longitude);
+      },
+      function(error) {
+        console.error("Error Code = " + error.code + " - " + error.message);
+      }
+    );
+
     let response = await insertBatch(
       null,
       '0x1772976766B5C5C01EbfcACBD3C7157DDd9DCf95',
@@ -30,6 +41,14 @@ export default function Dashboard() {
     console.log("Transaction batch", response);
 
     response = await insertVaccinate(
+      "0xef5351ac8b9ea2e0946072d598c11ca26472f5da",
+      '001.001.001-01',
+      'CPF',
+      'BCG'
+    );
+    console.log("Vaccinate", response);
+
+    response = await insertOccurrence(
       "0xef5351ac8b9ea2e0946072d598c11ca26472f5da",
       '001.001.001-01',
       'CPF',

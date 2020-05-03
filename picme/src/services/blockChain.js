@@ -107,3 +107,30 @@ export const insertVaccinate = async (
       console.log('TransactionHash', hash, vaccinateParams);
     });
 };
+
+export const insertOccurrence = async (
+  batchAddress,
+  document_number,
+  document,
+  vaccine
+) => {
+  const occurrenceParams = [
+    `0x${CryptoJS.lib.WordArray.random(20)}`,
+    batchAddress,
+    document_number,
+    document,
+    vaccine,
+  ];
+
+  const account = await getAccount();
+
+  getContract()
+    .methods.insertOccurrence(...occurrenceParams)
+    .send({
+      from: account,
+    })
+    .on('transactionHash', (hash) => {
+      // TODO: Enviar essa hash para API
+      console.log('TransactionHash', hash, occurrenceParams);
+    });
+};
