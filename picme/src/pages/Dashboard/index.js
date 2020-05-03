@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
 import api from '~/services/api';
 import {insertBatch, insertOccurrence, insertTransactionBatch, insertVaccinate} from '~/services/blockChain';
@@ -18,10 +18,10 @@ export default function Dashboard() {
 
     // get geolocation
     navigator.geolocation.getCurrentPosition(
-      function(position) {
-        console.log(position.latitude, position.longitude);
+      (position) => {
+        console.log({"latitude": position.coords.latitude, "longitude": position.coords.longitude});
       },
-      function(error) {
+      (error) => {
         console.error("Error Code = " + error.code + " - " + error.message);
       }
     );
@@ -58,11 +58,14 @@ export default function Dashboard() {
   };
 
   return (
-    <>
-      <h1>Hello</h1>
-      <button type="button" onClick={handleClick}>
-        LANÇAR
-      </button>
-    </>
-  );
+    < >
+    < h1 > Hello < /h1>
+    < button
+  type = "button"
+  onClick = {handleClick} >
+    LANÇAR
+    < /button>
+    < />
+)
+  ;
 }
