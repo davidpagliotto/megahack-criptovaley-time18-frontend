@@ -1,4 +1,4 @@
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from '~/config/BlockchainConfig';
+import {CONTRACT_ADDRESS, CONTRACT_ABI} from '~/config/BlockchainConfig';
 
 const Web3 = require('web3');
 const CryptoJS = require('crypto-js');
@@ -53,13 +53,56 @@ export const insertBatch = async (
 
   getContract()
     .methods.insertBatch(
-      ...batchParam
-    )
+    ...batchParam
+  )
     .send({
       from: account,
     })
     .on('transactionHash', (hash) => {
       // TODO: Enviar essa hash para API
-      console.log(hash);
+      console.log("TransactionHash", hash, batchParam);
+    });
+};
+
+export const insertTransactionBatch = async (batchAddress) => {
+  const transactionBatchParam = [
+    `0x${CryptoJS.lib.WordArray.random(20)}`,
+    batchAddress
+  ]
+
+  const account = await getAccount()
+
+  getContract()
+    .methods.insertTransactionBatch(
+    ...transactionBatchParam
+  ).send({
+    from: account,
+  })
+    .on('transactionHash', (hash) => {
+      // TODO: Enviar essa hash para API
+      console.log("TransactionHash", hash, transactionBatchParam);
+    });
+};
+
+export const insertVaccinate = async (batchAddress, document_number, document, vaccine) => {
+  const vaccinateParams = [
+    `0x${CryptoJS.lib.WordArray.random(20)}`,
+    batchAddress,
+    document_number,
+    document,
+    vaccine
+  ]
+
+  const account = await getAccount()
+
+  getContract()
+    .methods.insertVaccinate(
+    ...vaccinateParams
+  ).send({
+    from: account,
+  })
+    .on('transactionHash', (hash) => {
+      // TODO: Enviar essa hash para API
+      console.log("TransactionHash", hash, vaccinateParams);
     });
 };
