@@ -29,6 +29,7 @@ export const getBatchCount = async () => {
 };
 
 export const insertBatch = async (
+  batchAddress,
   supplier,
   batchOrigin,
   geolocation,
@@ -36,7 +37,7 @@ export const insertBatch = async (
   document
 ) => {
   const batchParam = [
-    `0x${CryptoJS.lib.WordArray.random(20)}`,
+    batchAddress,
     supplier, // TODO: Depois deve ser trocado pelo do parametro
     batchOrigin,
     geolocation, // TODO: Depois deve ser trocado pelo do parametro

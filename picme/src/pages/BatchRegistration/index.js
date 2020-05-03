@@ -72,9 +72,14 @@ export default function BatchRegistration() {
 
     console.log(supplier);
 
+    const batchAddress = `0x${CryptoJS.lib.WordArray.random(20)}`;
+    const batchOrigin = batchAddress; // como não vamos dividir lotes no MVP, o lote de origin é igual ao batch address
+
     const response = await insertBatch(
-      supplier,
-      `0x${CryptoJS.lib.WordArray.random(20)}`,
+      batchAddress,
+      // supplier,
+      '0xea9dc3b3c0dacc90588f683f98bf9d76bcba88ea',
+      batchOrigin,
       '',
       '2',
       document
