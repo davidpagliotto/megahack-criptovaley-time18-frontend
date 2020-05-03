@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = '0x3eb56C6744F3515a35C46117C55DDd59284cb62a';
+export const CONTRACT_ADDRESS = '0x4C972bAfbC7f5AcDCDbfE7C449d117D32330D4DE';
 
 export const CONTRACT_ABI = {
   "contractName": "Register",
@@ -43,7 +43,7 @@ export const CONTRACT_ABI = {
           "type": "address"
         },
         {
-          "name": "origin",
+          "name": "batchOrigin",
           "type": "address"
         },
         {
@@ -51,11 +51,7 @@ export const CONTRACT_ABI = {
           "type": "string"
         },
         {
-          "name": "document_number",
-          "type": "string"
-        },
-        {
-          "name": "nf",
+          "name": "documentNumber",
           "type": "string"
         },
         {
@@ -70,6 +66,92 @@ export const CONTRACT_ABI = {
           "type": "uint256"
         }
       ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "transactionBatchAddress",
+          "type": "address"
+        },
+        {
+          "name": "batchAddress",
+          "type": "address"
+        }
+      ],
+      "name": "insertTransactionBatch",
+      "outputs": [
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "vaccinateAddress",
+          "type": "address"
+        },
+        {
+          "name": "batchAddress",
+          "type": "address"
+        },
+        {
+          "name": "documentNumber",
+          "type": "string"
+        },
+        {
+          "name": "document",
+          "type": "string"
+        },
+        {
+          "name": "vaccine",
+          "type": "string"
+        }
+      ],
+      "name": "insertVaccinate",
+      "outputs": [
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "remove_admins",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "remove_healthfacilities",
+      "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
@@ -100,6 +182,18 @@ export const CONTRACT_ABI = {
       "name": "getBatch",
       "outputs": [
         {
+          "name": "supplier",
+          "type": "address"
+        },
+        {
+          "name": "batchOrigin",
+          "type": "address"
+        },
+        {
+          "name": "responsible",
+          "type": "address"
+        },
+        {
           "name": "geolocation",
           "type": "string"
         },
@@ -108,11 +202,7 @@ export const CONTRACT_ABI = {
           "type": "string"
         },
         {
-          "name": "document_number",
-          "type": "string"
-        },
-        {
-          "name": "nf",
+          "name": "documentNumber",
           "type": "string"
         },
         {
@@ -140,6 +230,77 @@ export const CONTRACT_ABI = {
     },
     {
       "constant": true,
+      "inputs": [],
+      "name": "getTransactionBatchCount",
+      "outputs": [
+        {
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "vaccinateAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getVaccinate",
+      "outputs": [
+        {
+          "name": "responsible",
+          "type": "address"
+        },
+        {
+          "name": "batchAddress",
+          "type": "address"
+        },
+        {
+          "name": "document",
+          "type": "string"
+        },
+        {
+          "name": "documentNumber",
+          "type": "string"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "name": "vaccine",
+          "type": "string"
+        },
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getVaccinateCount",
+      "outputs": [
+        {
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
       "inputs": [
         {
           "name": "batchAddress",
@@ -147,6 +308,44 @@ export const CONTRACT_ABI = {
         }
       ],
       "name": "isBatch",
+      "outputs": [
+        {
+          "name": "isIndeed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "transactionBatchAddress",
+          "type": "address"
+        }
+      ],
+      "name": "isTransactionBatch",
+      "outputs": [
+        {
+          "name": "isIndeed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "vaccinateAddress",
+          "type": "address"
+        }
+      ],
+      "name": "isVaccinate",
       "outputs": [
         {
           "name": "isIndeed",
