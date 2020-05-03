@@ -51,7 +51,8 @@ export const insertBatch = async (
 
   console.log(account);
 
-  getContract()
+  const p = new Promise((resolve, reject) => {
+    getContract()
     .methods.insertBatch(...batchParam)
     .send({
       from: account,
@@ -59,7 +60,12 @@ export const insertBatch = async (
     .on('transactionHash', (hash) => {
       // TODO: Enviar essa hash para API
       console.log('TransactionHash', hash, batchParam);
+      resolve(hash)
     });
+  });
+
+  return p
+
 };
 
 export const insertTransactionBatch = async (batchAddress) => {

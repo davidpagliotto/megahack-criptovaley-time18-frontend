@@ -42,13 +42,15 @@ export default function BatchRegistration() {
     */
     console.log(formData);
 
-    await insertBatch(
+    const response = await insertBatch(
       supplier,
       `0x${CryptoJS.lib.WordArray.random(20)}`,
       '',
       '2',
       document
     );
+    console.log('Juca da Balada Volume II');
+    console.log(response);
   };
 
   useEffect(() => {

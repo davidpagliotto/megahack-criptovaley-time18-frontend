@@ -1,17 +1,9 @@
 import React, {useEffect} from 'react';
 
 import api from '~/services/api';
-<<<<<<< HEAD
-import {
-  insertBatch,
-  insertTransactionBatch,
-  insertVaccinate,
-} from '~/services/blockChain';
-
 import * as S from './styles';
-=======
 import {insertBatch, insertOccurrence, insertTransactionBatch, insertVaccinate} from '~/services/blockChain';
->>>>>>> upstream/master
+
 
 export default function Dashboard() {
   useEffect(() => {
