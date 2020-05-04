@@ -5,6 +5,7 @@ export const categories = [
   {
     id: 'Registros',
     children: [
+      { id: 'Unidade de Saúde', icon: <Icon />, route: 'healthfacility' },
       { id: 'Registro de Lote', icon: <Icon />, route: 'batch' },
       { id: 'Registro de Ocorrência', icon: <Icon />, route: 'occurrence' },
       { id: 'Registro de Vacina', icon: <Icon />, route: 'vaccinate' },
@@ -14,11 +15,6 @@ export const categories = [
     id: 'Consulta',
     children: [
       { id: 'Dashboard', icon: <Icon />, route: 'dashboard' },
-      {
-        id: 'Unidade de Saúde',
-        icon: <Icon />,
-        route: 'healthfacility',
-      },
       { id: 'Carteirinha', icon: <Icon />, route: 'vaccinatelist' },
     ],
   },
