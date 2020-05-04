@@ -91,6 +91,10 @@ export default function VaccinateRegistration() {
       setBatches(batchList);
     };
 
+    loadBatch();
+  }, []);
+
+  useEffect(() => {
     const loadVaccine = async () => {
       const response = await api.get('/vaccine');
 
@@ -99,8 +103,6 @@ export default function VaccinateRegistration() {
       const vaccineList = response.data;
       setVaccines(vaccineList);
     };
-
-    loadBatch();
 
     loadVaccine();
   }, []);
@@ -140,7 +142,7 @@ export default function VaccinateRegistration() {
           <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
           {vaccines.map((item) => (
             <S.SelectOption key={item.guid} value={item.address}>
-              {item.nome}
+              {item.name}
             </S.SelectOption>
           ))}
         </S.Select>
