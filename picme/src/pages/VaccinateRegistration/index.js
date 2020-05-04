@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 import api from '~/services/api';
 import {insertBatch, getCurrentProvider, insertVaccinate} from '~/services/blockChain';
@@ -43,7 +43,7 @@ export default function VaccinateRegistration() {
 
     console.log(batch);
 
-    const { document } = formData;
+    const {document} = formData;
 
     const payload = {
       address: String(batchAddress),
@@ -60,7 +60,7 @@ export default function VaccinateRegistration() {
   };
 
   const handleClick = async () => {
-    const { batch, vaccine, document } = formData;
+    const {batch, vaccine, document} = formData;
 
     console.log(batch, vaccine, document);
 
@@ -89,6 +89,10 @@ export default function VaccinateRegistration() {
       setBatches(batchList);
     };
 
+    loadBatch();
+  }, []);
+
+  useEffect(() => {
     const loadVaccine = async () => {
       const response = await api.get('/vaccine');
 
@@ -98,13 +102,12 @@ export default function VaccinateRegistration() {
       setVaccines(vaccineList);
     };
 
-    loadBatch();
-
     loadVaccine();
   }, []);
 
+
   useEffect(() => {
-    const loadGeolocation  = async () => {
+    const loadGeolocation = async () => {
       navigator.geolocation.getCurrentPosition(
         function (position) {
           setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
@@ -112,53 +115,86 @@ export default function VaccinateRegistration() {
         function (error) {
           console.error("Error Code = " + error.code + " - " + error.message);
         }
-      )};
+      )
+    };
 
     loadGeolocation();
   }, []);
 
   return (
-    <S.BatchWrapper>
-      <S.BatchContent>
-        <S.BatchTitleContainer>
-          <S.BatchTitleContainerItem>
-            Cadastro de Vacinação
-          </S.BatchTitleContainerItem>
-        </S.BatchTitleContainer>
-        <S.Select name="batch" onChange={handleChange}>
-          <S.SelectOption value="">Selecione um lote</S.SelectOption>
-          {batches.map((item) => (
-            <S.SelectOption key={item.guid} value={item.address}>
-              {item.address}
-            </S.SelectOption>
-          ))}
-        </S.Select>
-        <S.Select name="vaccine" onChange={handleChange}>
-          <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
-        {vaccines.map((item) => (
-          <S.SelectOption key={item.guid} value={item.address}>
-          {item.nome}
-          </S.SelectOption>
-        ))}
-      </S.Select>
-        <S.Input placeholder="Geolocalização" disabled
-          value={geolocation}/>
-        <S.Select>
-          {DOCTYPES.map((option) => (
-            <S.SelectOption key={option} value={option}>
-              {option}
-            </S.SelectOption>
-          ))}
-        </S.Select>
-        <S.Input
-          name="document"
-          placeholder="Número do Documento"
-          onChange={handleChange}
-        />
-        <S.ButtonConfirm type="button" onClick={handleClick}>
-          Salvar Vacinação
-        </S.ButtonConfirm>
-      </S.BatchContent>
-    </S.BatchWrapper>
-  );
+    < S.BatchWrapper >
+    < S.BatchContent >
+    < S.BatchTitleContainer >
+    < S.BatchTitleContainerItem >
+    Cadastro
+  de
+  Vacinação
+  < /S.BatchTitleContainerItem>
+  < /S.BatchTitleContainer>
+  < S.Select
+  name = "batch"
+  onChange = {handleChange} >
+    < S.SelectOption
+  value = "" > Selecione
+  um
+  lote < /S.SelectOption>
+  {
+    batches.map((item) => (
+      < S.SelectOption
+    key = {item.guid}
+    value = {item.address} >
+      {item.address}
+      < /S.SelectOption>
+  ))
+  }
+<
+  /S.Select>
+  < S.Select
+  name = "vaccine"
+  onChange = {handleChange} >
+    < S.SelectOption
+  value = "" > Selecione
+  uma
+  vacina < /S.SelectOption>
+  {
+    vaccines.map((item) => (
+      < S.SelectOption
+    key = {item.guid}
+    value = {item.address} >
+      {item.nome}
+      < /S.SelectOption>
+  ))
+  }
+<
+  /S.Select>
+  < S.Input
+  placeholder = "Geolocalização"
+  disabled
+  value = {geolocation}
+  />
+  < S.Select >
+  {
+    DOCTYPES.map((option) => (
+      < S.SelectOption key = {option} value = {option} >
+    {option}
+    < /S.SelectOption>
+))
+}
+<
+  /S.Select>
+  < S.Input
+  name = "document"
+  placeholder = "Número do Documento"
+  onChange = {handleChange}
+  />
+  < S.ButtonConfirm
+  type = "button"
+  onClick = {handleClick} >
+    Salvar
+  Vacinação
+  < /S.ButtonConfirm>
+  < /S.BatchContent>
+  < /S.BatchWrapper>
+)
+  ;
 }
