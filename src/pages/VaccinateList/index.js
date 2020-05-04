@@ -21,7 +21,7 @@ export default function VaccinateList() {
     const loadVaccinates = async () => {
       const response = await api.get(`/vaccinate?document=${document}`);
 
-      const vaccinates = response.data;
+      const vaccinates = response.data.filter((el) => el.document == document);
 
       setVaccinates(vaccinates);
     };
