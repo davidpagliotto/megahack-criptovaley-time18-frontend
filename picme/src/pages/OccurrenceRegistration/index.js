@@ -136,7 +136,7 @@ export default function OccurrenceRegistration() {
         <S.Select name="vaccine" onChange={handleChange}>
           <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
           {vaccines.map((item) => (
-            <S.SelectOption key={item.guid} value={item.address}>
+            <S.SelectOption key={item.guid} value={item.guid}>
               {item.name}
             </S.SelectOption>
           ))}
