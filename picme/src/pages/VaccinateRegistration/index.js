@@ -161,7 +161,7 @@ export default function VaccinateRegistration() {
       < S.SelectOption
     key = {item.guid}
     value = {item.address} >
-      {item.nome}
+      {item.name}
       < /S.SelectOption>
   ))
   }

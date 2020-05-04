@@ -6,7 +6,7 @@ import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
 
-const DOCTYPES = ['CNPJ', 'CPF'];
+const DOCTYPES = ['NF', 'OUTROS'];
 
 export default function BatchRegistration() {
   const [geolocation, setGeolocation] = useState([]);
