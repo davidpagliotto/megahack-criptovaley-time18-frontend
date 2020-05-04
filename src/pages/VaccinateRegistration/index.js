@@ -10,7 +10,7 @@ import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
 
-const DOCTYPES = ['CPF', 'RG', 'CNH', 'PASSAPORT', 'OTHER'];
+const DOCTYPES = ['cpf', 'RG', 'CNH', 'passport', 'other'];
 
 export default function VaccinateRegistration() {
   const [geolocation, setGeolocation] = useState([]);
@@ -41,22 +41,31 @@ export default function VaccinateRegistration() {
   const saveVaccinate = async (key) => {
     console.log('key', key);
 
-    const { vaccine, document, document_type } = formData;
+    const { batch, vaccine, document, document_type } = formData;
 
-    console.log(vaccine)
+    console.log(vaccine, vaccines, batches, batchAddress)
+
+    const vaccine_name = vaccines.find(el => {
+      return el.guid == vaccine;
+    }).name;
+
+    const batchGuid = batches.find(el => {
+      return el.address == batch;
+    }).guid;
 
     const payload = {
-      address: String(batchAddress),
-      document_number: document,
+      batch: String(batchGuid),
+      date_of_vaccination: new Date(),
       document: document,
       document_type: document_type,
       geo: geolocation,
       responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
       transaction_id: key,
-      vaccine: vaccine
+      vaccine: vaccine,
+      name: vaccine_name
     };
 
-    const response = await api.post('/vaccine', payload);
+    const response = await api.post('/vaccinate', payload);
     console.log('vaccinate saved', response);
   };
 
@@ -84,8 +93,6 @@ export default function VaccinateRegistration() {
     const loadBatch = async () => {
       const response = await api.get('/batch');
 
-      setBatchAddress(generateBatchAddress());
-
       const batchList = response.data;
       setBatches(batchList);
     };
@@ -96,8 +103,6 @@ export default function VaccinateRegistration() {
   useEffect(() => {
     const loadVaccine = async () => {
       const response = await api.get('/vaccine');
-
-      setBatchAddress(generateBatchAddress());
 
       const vaccineList = response.data;
       setVaccines(vaccineList);
