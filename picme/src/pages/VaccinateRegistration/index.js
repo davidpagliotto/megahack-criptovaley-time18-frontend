@@ -122,79 +122,46 @@ export default function VaccinateRegistration() {
   }, []);
 
   return (
-    < S.BatchWrapper >
-    < S.BatchContent >
-    < S.BatchTitleContainer >
-    < S.BatchTitleContainerItem >
-    Cadastro
-  de
-  Vacinação
-  < /S.BatchTitleContainerItem>
-  < /S.BatchTitleContainer>
-  < S.Select
-  name = "batch"
-  onChange = {handleChange} >
-    < S.SelectOption
-  value = "" > Selecione
-  um
-  lote < /S.SelectOption>
-  {
-    batches.map((item) => (
-      < S.SelectOption
-    key = {item.guid}
-    value = {item.address} >
-      {item.address}
-      < /S.SelectOption>
-  ))
-  }
-<
-  /S.Select>
-  < S.Select
-  name = "vaccine"
-  onChange = {handleChange} >
-    < S.SelectOption
-  value = "" > Selecione
-  uma
-  vacina < /S.SelectOption>
-  {
-    vaccines.map((item) => (
-      < S.SelectOption
-    key = {item.guid}
-    value = {item.address} >
-      {item.name}
-      < /S.SelectOption>
-  ))
-  }
-<
-  /S.Select>
-  < S.Input
-  placeholder = "Geolocalização"
-  disabled
-  value = {geolocation}
-  />
-  < S.Select >
-  {
-    DOCTYPES.map((option) => (
-      < S.SelectOption key = {option} value = {option} >
+    <S.BatchWrapper>
+    <S.BatchContent>
+    <S.BatchTitleContainer>
+    <S.BatchTitleContainerItem>
+    Cadastro de Vacinação
+  </S.BatchTitleContainerItem>
+  </S.BatchTitleContainer>
+  <S.Select name="batch" onChange={handleChange}>
+    <S.SelectOption value="">Selecione um lote</S.SelectOption>
+  {batches.map((item) => (
+    <S.SelectOption key={item.guid} value={item.address}>
+    {item.address}
+    </S.SelectOption>
+  ))}
+</S.Select>
+  <S.Select name="vaccine" onChange={handleChange}>
+    <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
+  {vaccines.map((item) => (
+    <S.SelectOption key={item.guid} value={item.address}>
+    {item.name}
+    </S.SelectOption>
+  ))}
+</S.Select>
+  <S.Input placeholder="Geolocalização" disabled value = {geolocation} />
+  <S.Select>
+  {DOCTYPES.map((option) => (
+      <S.SelectOption key={option} value={option}>
     {option}
-    < /S.SelectOption>
-))
-}
-<
-  /S.Select>
-  < S.Input
-  name = "document"
-  placeholder = "Número do Documento"
-  onChange = {handleChange}
+    </S.SelectOption>
+))}
+</S.Select>
+  <S.Input
+  name="document"
+  placeholder="Número do Documento"
+  onChange={handleChange}
   />
-  < S.ButtonConfirm
-  type = "button"
-  onClick = {handleClick} >
-    Salvar
-  Vacinação
-  < /S.ButtonConfirm>
-  < /S.BatchContent>
-  < /S.BatchWrapper>
-)
-  ;
+  <S.ButtonConfirm type="button" onClick={handleClick}>
+    Salvar Vacinação
+  </S.ButtonConfirm>
+  </S.BatchContent>
+  </S.BatchWrapper>
+);
 }
