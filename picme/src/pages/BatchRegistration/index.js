@@ -33,7 +33,7 @@ export default function BatchRegistration() {
     });
   };
 
-  const saveBatch = async (key) => {
+  const saveBatch = async (key, batchAddress) => {
     console.log('key', key);
     console.log('formData.supplier', formData.supplier);
 
@@ -48,7 +48,7 @@ export default function BatchRegistration() {
     const payload = {
       address: String(batchAddress),
       supplier: supplier.guid,
-      batch_origin: null,
+      batch_origin: String(batchAddress),
       document_number: document,
       document: null,
       document_type: '1',
@@ -79,16 +79,16 @@ export default function BatchRegistration() {
     const response = await insertBatch(
       batchAddress,
       // supplier,
-      '0xea9dc3b3c0dacc90588f683f98bf9d76bcba88ea',
+      supplier,
       batchOrigin,
-      '',
+      geolocation,
       '2',
       document
     );
 
     console.log(response);
 
-    saveBatch(response);
+    saveBatch(response, batchAddress);
   };
 
   useEffect(() => {
