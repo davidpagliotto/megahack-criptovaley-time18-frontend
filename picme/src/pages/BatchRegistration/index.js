@@ -64,7 +64,7 @@ export default function BatchRegistration() {
 
     console.log(supplier);
 
-    const { document, docume } = formData;
+    const { document, document_type } = formData;
 
     const itemsMapped = items.map((i) => ({ ...i, supplier: supplier.guid }));
 
@@ -74,7 +74,7 @@ export default function BatchRegistration() {
       batch_origin: null,
       document_number: document,
       document: null,
-      document_type: '1',
+      document_type: document_type,
       geo: geolocation,
       responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
       items: itemsMapped,
@@ -82,7 +82,7 @@ export default function BatchRegistration() {
     };
 
     const response = await api.post('/batch', payload);
-    console.log('FOOOOI', response);
+    console.log('Saved batch in API:', response);
   };
 
   const handleClick = async () => {

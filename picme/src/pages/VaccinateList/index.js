@@ -5,6 +5,7 @@ import api from "~/services/api";
 
 export default function VaccinateList() {
   const [formData, setFormData] = useState({});
+  const [vaccinates, setVaccinates] = useState([]);
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -17,13 +18,15 @@ export default function VaccinateList() {
   const handleClick = async () => {
     const {document} = formData;
 
-    const loadVaccines = async () => {
+    const loadVaccinates = async () => {
       const response = await api.get(`/vaccinate?document=${document}`);
 
-      const vaccineList = response.data;
+      const vaccinates = response.data;
+
+      setVaccinates(vaccinates);
     };
 
-    loadVaccines();
+    loadVaccinates();
   };
 
   return (
@@ -42,6 +45,15 @@ export default function VaccinateList() {
         <S.ButtonConfirm type="button" onClick={handleClick}>
           Consultar
         </S.ButtonConfirm>
+      {vaccinates.map((item) => (
+        <S.VaccinateContent>
+          <b>Registro:</b> {item.guid}<br />
+          <b>Aplicada em:</b> {item.date_of_vaccination}<br />
+          <b>Responsável:</b> {item.responsible}<br />
+          <b>Vacina:</b> {item.vaccine_obj.name}<br />
+          <b>Documento:</b> {item.document_type} / {item.document}
+        </S.VaccinateContent>
+      ))}
       </S.BatchContent>
     </S.BatchWrapper>
   );

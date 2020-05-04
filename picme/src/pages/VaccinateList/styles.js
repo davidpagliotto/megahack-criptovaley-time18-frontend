@@ -13,6 +13,15 @@ export const BatchContent = styled.div`
   margin: 0 auto;
 `;
 
+export const VaccinateContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  // width: 64rem;
+  background-color: #ffffff;
+  margin: 10px auto;
+  padding: 10px;
+`;
+
 export const BatchTitleContainer = styled.div`
   padding: 10px 0;
 `;

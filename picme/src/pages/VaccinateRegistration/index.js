@@ -41,24 +41,23 @@ export default function VaccinateRegistration() {
   const saveVaccinate = async (key) => {
     console.log('key', key);
 
-    const batch = batches.find((item) => item.address === formData.supplier);
+    const { vaccine, document, document_type } = formData;
 
-    console.log(batch);
-
-    const { document } = formData;
+    console.log(vaccine)
 
     const payload = {
       address: String(batchAddress),
       document_number: document,
-      document: null,
-      document_type: '1',
-      geo: 'casa do carai',
+      document: document,
+      document_type: document_type,
+      geo: geolocation,
       responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
       transaction_id: key,
+      vaccine: vaccine
     };
 
-    // const response = await api.post('/vaccine', payload);
-    // console.log('vaccinate saved', response);
+    const response = await api.post('/vaccine', payload);
+    console.log('vaccinate saved', response);
   };
 
   const handleClick = async () => {
@@ -141,13 +140,16 @@ export default function VaccinateRegistration() {
         <S.Select name="vaccine" onChange={handleChange}>
           <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
           {vaccines.map((item) => (
-            <S.SelectOption key={item.guid} value={item.address}>
+            <S.SelectOption key={item.guid} value={item.guid}>
               {item.name}
             </S.SelectOption>
           ))}
         </S.Select>
         <S.Input placeholder="Geolocalização" disabled value={geolocation} />
-        <S.Select>
+        <S.Select name="document_type" onChange={handleChange}>
+          <S.SelectOption value="">
+            Selecione o tipo de documento
+          </S.SelectOption>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
               {option}

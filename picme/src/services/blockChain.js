@@ -77,15 +77,20 @@ export const insertTransactionBatch = async (batchAddress) => {
 
   const account = await getAccount();
 
-  getContract()
-    .methods.insertTransactionBatch(...transactionBatchParam)
-    .send({
-      from: account,
-    })
-    .on('transactionHash', (hash) => {
-      // TODO: Enviar essa hash para API
-      console.log('TransactionHash', hash, transactionBatchParam);
-    });
+  const p = new Promise((resolve, reject) => {
+    getContract()
+      .methods.insertTransactionBatch(...transactionBatchParam)
+      .send({
+        from: account,
+      })
+      .on('transactionHash', (hash) => {
+        // TODO: Enviar essa hash para API
+        console.log('TransactionHash', hash, transactionBatchParam);
+        resolve(hash)
+      });
+  });
+
+  return p
 };
 
 export const insertVaccinate = async (
@@ -105,15 +110,20 @@ export const insertVaccinate = async (
 
   const account = await getAccount();
 
-  getContract()
-    .methods.insertVaccinate(...vaccinateParams)
-    .send({
-      from: account,
-    })
-    .on('transactionHash', (hash) => {
-      // TODO: Enviar essa hash para API
-      console.log('TransactionHash', hash, vaccinateParams);
-    });
+  const p = new Promise((resolve, reject) => {
+    getContract()
+      .methods.insertVaccinate(...vaccinateParams)
+      .send({
+        from: account,
+      })
+      .on('transactionHash', (hash) => {
+        // TODO: Enviar essa hash para API
+        console.log('TransactionHash', hash, vaccinateParams);
+        resolve(hash)
+      });
+  });
+
+  return p
 };
 
 export const addHealthFacilities = async (address) => {
@@ -146,13 +156,18 @@ export const insertOccurrence = async (
 
   const account = await getAccount();
 
-  getContract()
-    .methods.insertOccurrence(...occurrenceParams)
-    .send({
-      from: account,
-    })
-    .on('transactionHash', (hash) => {
-      // TODO: Enviar essa hash para API
-      console.log('TransactionHash', hash, occurrenceParams);
-    });
+  const p = new Promise((resolve, reject) => {
+    getContract()
+      .methods.insertOccurrence(...occurrenceParams)
+      .send({
+        from: account,
+      })
+      .on('transactionHash', (hash) => {
+        // TODO: Enviar essa hash para API
+        console.log('TransactionHash', hash, occurrenceParams);
+        resolve(hash)
+      });
+  });
+
+  return p
 };
