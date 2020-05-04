@@ -21,7 +21,7 @@ export default function VaccinateList() {
     const loadVaccinates = async () => {
       const response = await api.get(`/vaccinate?document=${document}`);
 
-      const vaccinates = response.data.filter((el) => el.document == document);
+      const vaccinates = response.data.filter((el) => el.document === document);
 
       setVaccinates(vaccinates);
     };
@@ -47,19 +47,26 @@ export default function VaccinateList() {
           <S.BatchTitleContainerItem>Vacinações</S.BatchTitleContainerItem>
         )}
 
-        {vaccinates.map((item) => (
-          <S.VaccinateContent key={item.guid}>
-            <b>Registro:</b> {item.guid}
-            <br />
-            <b>Aplicada em:</b> {item.date_of_vaccination}
-            <br />
-            <b>Responsável:</b> {item.responsible}
-            <br />
-            <b>Vacina:</b> {item.vaccine_obj.name}
-            <br />
-            <b>Documento:</b> {item.document_type} / {item.document}
-          </S.VaccinateContent>
-        ))}
+        <S.VaccinatesContainer>
+          {vaccinates.map((item) => (
+            <S.VaccinateContent key={item.guid}>
+              <S.VaccinateTitle>Registro:</S.VaccinateTitle>
+              <S.VaccinateDesc>{item.guid}</S.VaccinateDesc>
+
+              <S.VaccinateTitle>Aplicada em:</S.VaccinateTitle>
+              <S.VaccinateDesc>{item.date_of_vaccination}</S.VaccinateDesc>
+
+              <S.VaccinateTitle>Responsável:</S.VaccinateTitle>
+              <S.VaccinateDesc>{item.responsible}</S.VaccinateDesc>
+
+              <S.VaccinateTitle>Vacina :</S.VaccinateTitle>
+              <S.VaccinateDesc>{item.vaccine_obj.name}</S.VaccinateDesc>
+
+              <S.VaccinateTitle>Documento:</S.VaccinateTitle>
+              <S.VaccinateDesc>{item.document_type} </S.VaccinateDesc>
+            </S.VaccinateContent>
+          ))}
+        </S.VaccinatesContainer>
       </S.BatchContent>
     </S.BatchWrapper>
   );
