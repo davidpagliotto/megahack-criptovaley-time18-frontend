@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { envVariables } from '~/env';
-import history from './history';
 
 const api = axios.create({
   baseURL: envVariables.API_ADDRESS,

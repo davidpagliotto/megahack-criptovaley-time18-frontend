@@ -17,9 +17,7 @@ export default function HealthFacilityPermission() {
   const handleClick = async () => {
     const { address } = formData;
 
-    const response = await addHealthFacilities(
-      address
-    );
+    const response = await addHealthFacilities(address);
 
     console.log(response);
   };
@@ -27,19 +25,16 @@ export default function HealthFacilityPermission() {
   return (
     <S.BatchWrapper>
       <S.BatchContent>
-        <S.BatchTitleContainer>
-          <S.BatchTitleContainerItem>
-            Liberar acesso à unidade de saúde
-          </S.BatchTitleContainerItem>
-        </S.BatchTitleContainer>
         <S.Input
           name="address"
           placeholder="Endereço da unidade de saúde"
           onChange={handleChange}
         />
-        <S.ButtonConfirm type="button" onClick={handleClick}>
-          Salvar unidade de saúde
-        </S.ButtonConfirm>
+        <S.PageActions>
+          <S.ButtonConfirm type="button" onClick={handleClick}>
+            Salvar unidade de saúde
+          </S.ButtonConfirm>
+        </S.PageActions>
       </S.BatchContent>
     </S.BatchWrapper>
   );

@@ -6,7 +6,7 @@ export default (reducers) => {
     {
       key: 'imune',
       storage,
-      whitelist: ['auth', 'user'],
+      whitelist: ['auth', 'user', 'screen'],
     },
     reducers
   );

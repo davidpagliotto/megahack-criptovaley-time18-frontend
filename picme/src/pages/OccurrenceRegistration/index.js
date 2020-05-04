@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import api from '~/services/api';
-import {insertBatch, getCurrentProvider, insertOccurrence} from '~/services/blockChain';
+import {
+  insertBatch,
+  getCurrentProvider,
+  insertOccurrence,
+} from '~/services/blockChain';
 import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
@@ -37,9 +41,7 @@ export default function OccurrenceRegistration() {
   const saveOccurrence = async (key) => {
     console.log('key', key);
 
-    const batch = batches.find(
-      (item) => item.address === formData.supplier
-    );
+    const batch = batches.find((item) => item.address === formData.supplier);
 
     const { document } = formData;
 
@@ -52,8 +54,8 @@ export default function OccurrenceRegistration() {
       transaction_id: key,
     };
 
-    const response = await api.post('/occurrence', payload);//
-    console.log('occurrence saved', response);//
+    const response = await api.post('/occurrence', payload); //
+    console.log('occurrence saved', response); //
   };
 
   const handleClick = async () => {
@@ -101,15 +103,21 @@ export default function OccurrenceRegistration() {
   }, []);
 
   useEffect(() => {
-    const loadGeolocation  = async () => {
+    const loadGeolocation = async () => {
       navigator.geolocation.getCurrentPosition(
         function (position) {
-          setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
+          setGeolocation(
+            JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          );
         },
         function (error) {
-          console.error("Error Code = " + error.code + " - " + error.message);
+          console.error(`Error Code = ${error.code} - ${error.message}`);
         }
-      )};
+      );
+    };
 
     loadGeolocation();
   }, []);
@@ -117,11 +125,6 @@ export default function OccurrenceRegistration() {
   return (
     <S.BatchWrapper>
       <S.BatchContent>
-        <S.BatchTitleContainer>
-          <S.BatchTitleContainerItem>
-            Cadastro de Ocorrência
-          </S.BatchTitleContainerItem>
-        </S.BatchTitleContainer>
         <S.Select name="batch" onChange={handleChange}>
           <S.SelectOption value="">Selecione um lote</S.SelectOption>
           {batches.map((item) => (
@@ -132,14 +135,13 @@ export default function OccurrenceRegistration() {
         </S.Select>
         <S.Select name="vaccine" onChange={handleChange}>
           <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
-        {vaccines.map((item) => (
-          <S.SelectOption key={item.guid} value={item.address}>
-          {item.nome}
-          </S.SelectOption>
-        ))}
-      </S.Select>
-        <S.Input placeholder="Geolocalização" disabled
-          value={geolocation}/>
+          {vaccines.map((item) => (
+            <S.SelectOption key={item.guid} value={item.address}>
+              {item.nome}
+            </S.SelectOption>
+          ))}
+        </S.Select>
+        <S.Input placeholder="Geolocalização" disabled value={geolocation} />
         <S.Select>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
@@ -152,9 +154,11 @@ export default function OccurrenceRegistration() {
           placeholder="Número do Documento"
           onChange={handleChange}
         />
-        <S.ButtonConfirm type="button" onClick={handleClick}>
-          Salvar Lote
-        </S.ButtonConfirm>
+        <S.PageActions>
+          <S.ButtonConfirm type="button" onClick={handleClick}>
+            Salvar Ocorrência
+          </S.ButtonConfirm>
+        </S.PageActions>
       </S.BatchContent>
     </S.BatchWrapper>
   );

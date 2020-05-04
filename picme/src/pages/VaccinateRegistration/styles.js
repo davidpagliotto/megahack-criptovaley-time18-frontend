@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const BatchWrapper = styled.div`
   width: 100%;
-  height: 100vh;
-  background: #839ec1;
+  height: 100%;
   padding: 10px;
 `;
 export const BatchContent = styled.div`
@@ -24,6 +23,7 @@ export const BatchTitleContainerItem = styled.h1`
 export const Select = styled.select`
   height: 2rem;
   margin-bottom: 1rem;
+  border: 1px solid #adafb4;
 `;
 
 export const SelectOption = styled.option`
@@ -36,15 +36,21 @@ export const Input = styled.input`
   height: 2rem;
   margin-bottom: 1rem;
   padding: 0 5px;
+  border: 1px solid #adafb4;
+`;
+
+export const PageActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 export const ButtonConfirm = styled.button`
   width: 10rem;
-  height: 3rem;
-  /* padding: 1rem 5rem; */
-  align-self: right;
+  height: 2.5rem;
   border: 0;
-  background: #008cff;
+  background: #009be5;
   color: #fff;
   border-radius: 5px;
+  font-weight: bold;
 `;

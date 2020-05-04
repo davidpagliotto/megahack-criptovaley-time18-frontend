@@ -1,9 +1,12 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 import api from '~/services/api';
 import * as S from './styles';
-import {insertBatch, insertOccurrence, insertTransactionBatch, insertVaccinate} from '~/services/blockChain';
-
+import {
+  insertBatch,
+  insertTransactionBatch,
+  insertVaccinate,
+} from '~/services/blockChain';
 
 export default function Dashboard() {
   useEffect(() => {
@@ -17,14 +20,16 @@ export default function Dashboard() {
   }, []);
 
   const handleClick = async () => {
-
     // get geolocation
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log({"latitude": position.coords.latitude, "longitude": position.coords.longitude});
+        console.log({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
       },
       (error) => {
-        console.error("Error Code = " + error.code + " - " + error.message);
+        console.error(`Error Code = ${error.code} - ${error.message}`);
       }
     );
 

@@ -105,15 +105,21 @@ export default function BatchRegistration() {
   }, []);
 
   useEffect(() => {
-    const loadGeolocation  = async () => {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
-      },
-      function (error) {
-        console.error("Error Code = " + error.code + " - " + error.message);
-      }
-    )};
+    const loadGeolocation = async () => {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          setGeolocation(
+            JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          );
+        },
+        function (error) {
+          console.error(`Error Code = ${error.code} - ${error.message}`);
+        }
+      );
+    };
 
     loadGeolocation();
   }, []);
@@ -121,13 +127,10 @@ export default function BatchRegistration() {
   return (
     <S.BatchWrapper>
       <S.BatchContent>
-        <S.BatchTitleContainer>
-          <S.BatchTitleContainerItem>
-            Cadastro de Lotes
-          </S.BatchTitleContainerItem>
-        </S.BatchTitleContainer>
         <S.Select name="supplier" onChange={handleChange}>
-          <S.SelectOption value="">Selecione um laboratório (fornecedor)</S.SelectOption>
+          <S.SelectOption value="">
+            Selecione um laboratório (fornecedor)
+          </S.SelectOption>
           {supplies.map((item) => (
             <S.SelectOption key={item.guid} value={item.address}>
               {item.full_name}
@@ -140,8 +143,7 @@ export default function BatchRegistration() {
           disabled
           value={batchAddress}
         />
-        <S.Input placeholder="Geolocalização" disabled
-          value={geolocation}/>
+        <S.Input placeholder="Geolocalização" disabled value={geolocation} />
         <S.Select>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
@@ -154,9 +156,11 @@ export default function BatchRegistration() {
           placeholder="Número do Documento"
           onChange={handleChange}
         />
-        <S.ButtonConfirm type="button" onClick={handleClick}>
-          Salvar Lote
-        </S.ButtonConfirm>
+        <S.ActionsPage>
+          <S.ButtonConfirm type="button" onClick={handleClick}>
+            Salvar Lote
+          </S.ButtonConfirm>
+        </S.ActionsPage>
       </S.BatchContent>
     </S.BatchWrapper>
   );

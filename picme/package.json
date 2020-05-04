@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.9.12",
     "@metamask-checker/react": "^2.1.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -25,6 +26,7 @@
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.3",
     "styled-components": "^5.1.0",
+    "styled-icons": "^10.2.1",
     "web3": "^1.2.7"
   },
   "scripts": {
