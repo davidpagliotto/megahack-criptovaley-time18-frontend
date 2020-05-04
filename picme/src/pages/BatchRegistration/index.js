@@ -10,9 +10,19 @@ const DOCTYPES = ['NF', 'OUTROS'];
 
 export default function BatchRegistration() {
   const [geolocation, setGeolocation] = useState([]);
-  const [supplies, setSupplies] = useState([]);
+  const [suppliers, setsuppliers] = useState([]);
   const [batchAddress, setBatchAddress] = useState('');
   const [formData, setFormData] = useState({});
+  const [items, setItems] = useState([]);
+  const [vaccines, setVaccines] = useState([]);
+
+
+  const addItem = () => {
+    setItems([...items, {
+      vaccine_guid: null,
+      quantity: null
+    }])
+  }
 
   const generateBatchAddress = () => {
     const address = CryptoJS.lib.WordArray.random(20);
@@ -24,6 +34,15 @@ export default function BatchRegistration() {
 
     return address;
   };
+
+
+  const handleItems = (index, vaccine_guid=null, quantity=null) => {
+    const novosItems = [...items];
+    novosItems[index]['vaccine_guid'] = vaccine_guid ? vaccine_guid : novosItems[index]['vaccine_guid'];
+    novosItems[index]['quantity'] = quantity ? quantity : novosItems[index]['quantity'];
+    setItems(novosItems);
+    console.log(items)
+  }
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -37,13 +56,16 @@ export default function BatchRegistration() {
     console.log('key', key);
     console.log('formData.supplier', formData.supplier);
 
-    const supplier = supplies.find(
+    const supplier = suppliers.find(
       (item) => item.address === formData.supplier
     );
 
     console.log(supplier);
 
     const { document, docume } = formData;
+
+
+    const itemsMapped = items.map((i) => ({...i, supplier: supplier.guid}));
 
     const payload = {
       address: String(batchAddress),
@@ -54,13 +76,7 @@ export default function BatchRegistration() {
       document_type: '1',
       geo: geolocation,
       responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
-      items: [
-        {
-          vaccine_guid: '3d5af359-5fbe-4a55-94b0-81489bb8703a',
-          quantity: 1,
-          supplier: supplier.guid,
-        },
-      ],
+      items: itemsMapped,
       transaction_id: key,
     };
 
@@ -93,12 +109,23 @@ export default function BatchRegistration() {
 
   useEffect(() => {
     const loadSupplier = async () => {
+      const response = await api.get('/vaccine');
+
+      const vaccinesList = response.data;
+      setVaccines(vaccinesList);
+    };
+
+    loadSupplier();
+  }, []);
+
+  useEffect(() => {
+    const loadSupplier = async () => {
       const response = await api.get('/person?person_type=pj');
 
       setBatchAddress(generateBatchAddress());
 
-      const suppliesList = response.data;
-      setSupplies(suppliesList);
+      const suppliersList = response.data;
+      setsuppliers(suppliersList);
     };
 
     loadSupplier();
@@ -128,7 +155,7 @@ export default function BatchRegistration() {
         </S.BatchTitleContainer>
         <S.Select name="supplier" onChange={handleChange}>
           <S.SelectOption value="">Selecione um laboratório (fornecedor)</S.SelectOption>
-          {supplies.map((item) => (
+          {suppliers.map((item) => (
             <S.SelectOption key={item.guid} value={item.address}>
               {item.full_name}
             </S.SelectOption>
@@ -154,6 +181,29 @@ export default function BatchRegistration() {
           placeholder="Número do Documento"
           onChange={handleChange}
         />
+        <S.ButtonConfirm type="button" onClick={addItem}>
+          Adicionar Item
+        </S.ButtonConfirm>
+        {
+          items.map((item, index) => {
+            return (
+              <div key={index}>
+                <S.Select onChange={(event) => handleItems(index, event.target.value, null)}>
+                  <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
+                  {vaccines.map((item) => (
+                    <S.SelectOption key={item.guid} value={item.guid}>
+                      {item.name}
+                    </S.SelectOption>
+                  ))}
+                </S.Select>
+                <S.Input onChange={(event) => handleItems(index, null, event.target.value)}
+                  name="quantity"
+                  placeholder="Quantidade"
+                />
+              </div>
+            );
+          })
+        }
         <S.ButtonConfirm type="button" onClick={handleClick}>
           Salvar Lote
         </S.ButtonConfirm>
