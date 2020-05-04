@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import api from '~/services/api';
-import { insertBatch, getCurrentProvider } from '~/services/blockChain';
+import { insertBatch } from '~/services/blockChain';
 import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
@@ -43,16 +43,16 @@ export default function BatchRegistration() {
 
     console.log(supplier);
 
-    const { document } = formData;
+    const { document, docume } = formData;
 
     const payload = {
       address: String(batchAddress),
       supplier: supplier.guid,
-      batch_origin: String(batchAddress),
+      batch_origin: null,
       document_number: document,
       document: null,
       document_type: '1',
-      geo: 'casa do carai',
+      geo: geolocation,
       responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
       items: [
         {
@@ -142,7 +142,7 @@ export default function BatchRegistration() {
         />
         <S.Input placeholder="Geolocalização" disabled
           value={geolocation}/>
-        <S.Select>
+        <S.Select name="document_type">
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
               {option}
