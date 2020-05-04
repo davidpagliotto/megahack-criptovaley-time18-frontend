@@ -41,6 +41,10 @@ o projeto está sendo executado. ;) 🚀
 
 [https://imune.addesistemas.com.br/](https://imune.addesistemas.com.br/)
 
+Usuário: imune@addesistemas.com.br 
+
+Senha: 123@iMUNE
+
 ## No browser Chrome:
 
 1. Instalar o plugin metamask
