@@ -1,7 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import api from '~/services/api';
-import {insertBatch, getCurrentProvider, insertVaccinate} from '~/services/blockChain';
+import {
+  insertBatch,
+  getCurrentProvider,
+  insertVaccinate,
+} from '~/services/blockChain';
 import * as S from './styles';
 
 const CryptoJS = require('crypto-js');
@@ -37,13 +41,11 @@ export default function VaccinateRegistration() {
   const saveVaccinate = async (key) => {
     console.log('key', key);
 
-    const batch = batches.find(
-      (item) => item.address === formData.supplier
-    );
+    const batch = batches.find((item) => item.address === formData.supplier);
 
     console.log(batch);
 
-    const {document} = formData;
+    const { document } = formData;
 
     const payload = {
       address: String(batchAddress),
@@ -60,7 +62,7 @@ export default function VaccinateRegistration() {
   };
 
   const handleClick = async () => {
-    const {batch, vaccine, document} = formData;
+    const { batch, vaccine, document } = formData;
 
     console.log(batch, vaccine, document);
 
@@ -105,17 +107,21 @@ export default function VaccinateRegistration() {
     loadVaccine();
   }, []);
 
-
   useEffect(() => {
     const loadGeolocation = async () => {
       navigator.geolocation.getCurrentPosition(
         function (position) {
-          setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
+          setGeolocation(
+            JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          );
         },
         function (error) {
-          console.error("Error Code = " + error.code + " - " + error.message);
+          console.error(`Error Code = ${error.code} - ${error.message}`);
         }
-      )
+      );
     };
 
     loadGeolocation();
@@ -123,45 +129,42 @@ export default function VaccinateRegistration() {
 
   return (
     <S.BatchWrapper>
-    <S.BatchContent>
-    <S.BatchTitleContainer>
-    <S.BatchTitleContainerItem>
-    Cadastro de Vacinação
-  </S.BatchTitleContainerItem>
-  </S.BatchTitleContainer>
-  <S.Select name="batch" onChange={handleChange}>
-    <S.SelectOption value="">Selecione um lote</S.SelectOption>
-  {batches.map((item) => (
-    <S.SelectOption key={item.guid} value={item.address}>
-    {item.address}
-    </S.SelectOption>
-  ))}
-</S.Select>
-  <S.Select name="vaccine" onChange={handleChange}>
-    <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
-  {vaccines.map((item) => (
-    <S.SelectOption key={item.guid} value={item.address}>
-    {item.name}
-    </S.SelectOption>
-  ))}
-</S.Select>
-  <S.Input placeholder="Geolocalização" disabled value = {geolocation} />
-  <S.Select>
-  {DOCTYPES.map((option) => (
-      <S.SelectOption key={option} value={option}>
-    {option}
-    </S.SelectOption>
-))}
-</S.Select>
-  <S.Input
-  name="document"
-  placeholder="Número do Documento"
-  onChange={handleChange}
-  />
-  <S.ButtonConfirm type="button" onClick={handleClick}>
-    Salvar Vacinação
-  </S.ButtonConfirm>
-  </S.BatchContent>
-  </S.BatchWrapper>
-);
+      <S.BatchContent>
+        <S.Select name="batch" onChange={handleChange}>
+          <S.SelectOption value="">Selecione um lote</S.SelectOption>
+          {batches.map((item) => (
+            <S.SelectOption key={item.guid} value={item.address}>
+              {item.address}
+            </S.SelectOption>
+          ))}
+        </S.Select>
+        <S.Select name="vaccine" onChange={handleChange}>
+          <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
+          {vaccines.map((item) => (
+            <S.SelectOption key={item.guid} value={item.address}>
+              {item.name}
+            </S.SelectOption>
+          ))}
+        </S.Select>
+        <S.Input placeholder="Geolocalização" disabled value={geolocation} />
+        <S.Select>
+          {DOCTYPES.map((option) => (
+            <S.SelectOption key={option} value={option}>
+              {option}
+            </S.SelectOption>
+          ))}
+        </S.Select>
+        <S.Input
+          name="document"
+          placeholder="Número do Documento"
+          onChange={handleChange}
+        />
+        <S.PageActions>
+          <S.ButtonConfirm type="button" onClick={handleClick}>
+            Salvar Vacinação
+          </S.ButtonConfirm>
+        </S.PageActions>
+      </S.BatchContent>
+    </S.BatchWrapper>
+  );
 }

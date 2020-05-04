@@ -18,11 +18,16 @@ export default function Routes() {
       <Route path="/" exact component={Login} />
 
       <Route path="/dashboard" component={DashBoard} isPrivate />
+      {/* <Route path="/dashboardnew" component={DashBoardNew} isPrivate /> */}
       <Route path="/profile" component={Profile} isPrivate />
       <Route path="/batch" component={BatchRegistration} isPrivate />
       <Route path="/vaccinate" component={VaccinateRegistration} isPrivate />
       <Route path="/occurrence" component={OccurrenceRegistration} isPrivate />
-      <Route path="/healthfacility" component={HealthFacilityPermission} isPrivate />
+      <Route
+        path="/healthfacility"
+        component={HealthFacilityPermission}
+        isPrivate
+      />
       <Route path="/vaccinatelist" component={VaccinateList} isPrivate />
     </Switch>
   );

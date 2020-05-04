@@ -16,13 +16,15 @@ export default function BatchRegistration() {
   const [items, setItems] = useState([]);
   const [vaccines, setVaccines] = useState([]);
 
-
   const addItem = () => {
-    setItems([...items, {
-      vaccine_guid: null,
-      quantity: null
-    }])
-  }
+    setItems([
+      ...items,
+      {
+        vaccine_guid: null,
+        quantity: null,
+      },
+    ]);
+  };
 
   const generateBatchAddress = () => {
     const address = CryptoJS.lib.WordArray.random(20);
@@ -35,14 +37,14 @@ export default function BatchRegistration() {
     return address;
   };
 
-
-  const handleItems = (index, vaccine_guid=null, quantity=null) => {
+  const handleItems = (index, vaccine_guid = null, quantity = null) => {
     const novosItems = [...items];
-    novosItems[index]['vaccine_guid'] = vaccine_guid ? vaccine_guid : novosItems[index]['vaccine_guid'];
-    novosItems[index]['quantity'] = quantity ? quantity : novosItems[index]['quantity'];
+    novosItems[index].vaccine_guid =
+      vaccine_guid || novosItems[index].vaccine_guid;
+    novosItems[index].quantity = quantity || novosItems[index].quantity;
     setItems(novosItems);
-    console.log(items)
-  }
+    console.log(items);
+  };
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -64,8 +66,7 @@ export default function BatchRegistration() {
 
     const { document, docume } = formData;
 
-
-    const itemsMapped = items.map((i) => ({...i, supplier: supplier.guid}));
+    const itemsMapped = items.map((i) => ({ ...i, supplier: supplier.guid }));
 
     const payload = {
       address: String(batchAddress),
@@ -132,15 +133,21 @@ export default function BatchRegistration() {
   }, []);
 
   useEffect(() => {
-    const loadGeolocation  = async () => {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        setGeolocation(JSON.stringify({"latitude": position.coords.latitude, "longitude": position.coords.longitude}))
-      },
-      function (error) {
-        console.error("Error Code = " + error.code + " - " + error.message);
-      }
-    )};
+    const loadGeolocation = async () => {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          setGeolocation(
+            JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          );
+        },
+        function (error) {
+          console.error(`Error Code = ${error.code} - ${error.message}`);
+        }
+      );
+    };
 
     loadGeolocation();
   }, []);
@@ -148,13 +155,10 @@ export default function BatchRegistration() {
   return (
     <S.BatchWrapper>
       <S.BatchContent>
-        <S.BatchTitleContainer>
-          <S.BatchTitleContainerItem>
-            Cadastro de Lotes
-          </S.BatchTitleContainerItem>
-        </S.BatchTitleContainer>
         <S.Select name="supplier" onChange={handleChange}>
-          <S.SelectOption value="">Selecione um laboratório (fornecedor)</S.SelectOption>
+          <S.SelectOption value="">
+            Selecione um laboratório (fornecedor)
+          </S.SelectOption>
           {suppliers.map((item) => (
             <S.SelectOption key={item.guid} value={item.address}>
               {item.full_name}
@@ -167,8 +171,7 @@ export default function BatchRegistration() {
           disabled
           value={batchAddress}
         />
-        <S.Input placeholder="Geolocalização" disabled
-          value={geolocation}/>
+        <S.Input placeholder="Geolocalização" disabled value={geolocation} />
         <S.Select name="document_type">
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
@@ -181,32 +184,39 @@ export default function BatchRegistration() {
           placeholder="Número do Documento"
           onChange={handleChange}
         />
-        <S.ButtonConfirm type="button" onClick={addItem}>
-          Adicionar Item
-        </S.ButtonConfirm>
-        {
-          items.map((item, index) => {
-            return (
-              <div key={index}>
-                <S.Select onChange={(event) => handleItems(index, event.target.value, null)}>
-                  <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
-                  {vaccines.map((item) => (
-                    <S.SelectOption key={item.guid} value={item.guid}>
-                      {item.name}
-                    </S.SelectOption>
-                  ))}
-                </S.Select>
-                <S.Input onChange={(event) => handleItems(index, null, event.target.value)}
-                  name="quantity"
-                  placeholder="Quantidade"
-                />
-              </div>
-            );
-          })
-        }
-        <S.ButtonConfirm type="button" onClick={handleClick}>
-          Salvar Lote
-        </S.ButtonConfirm>
+        <S.ButtonAddItem type="button" onClick={addItem}>
+          +
+        </S.ButtonAddItem>
+        {items.map((item, index) => {
+          return (
+            <div key={index}>
+              <S.Select
+                onChange={(event) =>
+                  handleItems(index, event.target.value, null)
+                }
+              >
+                <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
+                {vaccines.map((item) => (
+                  <S.SelectOption key={item.guid} value={item.guid}>
+                    {item.name}
+                  </S.SelectOption>
+                ))}
+              </S.Select>
+              <S.Input
+                onChange={(event) =>
+                  handleItems(index, null, event.target.value)
+                }
+                name="quantity"
+                placeholder="Quantidade"
+              />
+            </div>
+          );
+        })}
+        <S.PageAction>
+          <S.ButtonConfirm type="button" onClick={handleClick}>
+            Salvar Lote
+          </S.ButtonConfirm>
+        </S.PageAction>
       </S.BatchContent>
     </S.BatchWrapper>
   );
