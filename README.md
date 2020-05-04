@@ -66,7 +66,7 @@ o projeto está sendo executado. ;) 🚀
 
 **O Brave permite gerenciar as wallets de forma mais organizada e sem o plugin, basta acessar:
 
-![brave://wallet](brave://wallet)
+[brave://wallet](brave://wallet)
 
 1. Liberar o domínio para acessar a wallet
 
