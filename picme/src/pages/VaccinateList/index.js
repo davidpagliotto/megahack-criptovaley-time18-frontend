@@ -21,10 +21,10 @@ export default function VaccinateList() {
       const response = await api.get(`/vaccinate?document=${document}`);
 
       const vaccineList = response.data;
-
-      loadVaccines();
     };
-  }
+
+    loadVaccines();
+  };
 
   return (
     <S.BatchWrapper>
