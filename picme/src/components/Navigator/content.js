@@ -19,6 +19,7 @@ export const categories = [
         icon: <Icon />,
         route: 'healthfacility',
       },
+      { id: 'Carteirinha', icon: <Icon />, route: 'vaccinatelist' },
     ],
   },
 ];

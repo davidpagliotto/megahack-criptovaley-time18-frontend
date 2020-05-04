@@ -85,12 +85,14 @@ function Header(props) {
         position="static"
         elevation={0}
       >
+          {/*
         <Tabs value={0} textColor="inherit">
           <Tab textColor="inherit" label="Users" />
           <Tab textColor="inherit" label="Sign-in method" />
           <Tab textColor="inherit" label="Templates" />
           <Tab textColor="inherit" label="Usage" />
         </Tabs>
+        */}
       </AppBar>
     </>
   );

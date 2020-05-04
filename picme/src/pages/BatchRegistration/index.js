@@ -27,7 +27,7 @@ export default function BatchRegistration() {
   };
 
   const generateBatchAddress = () => {
-    const address = CryptoJS.lib.WordArray.random(20);
+    const address = `0x${CryptoJS.lib.WordArray.random(20)}`;
 
     setFormData({
       ...formData,
@@ -54,7 +54,7 @@ export default function BatchRegistration() {
     });
   };
 
-  const saveBatch = async (key, batchAddress) => {
+  const saveBatch = async (key) => {
     console.log('key', key);
     console.log('formData.supplier', formData.supplier);
 
@@ -86,26 +86,27 @@ export default function BatchRegistration() {
   };
 
   const handleClick = async () => {
-    const { supplier, document } = formData;
+    const { supplier, document, document_type } = formData;
 
-    console.log(supplier);
+    console.log(supplier, items, document_type, document);
 
-    const batchAddress = `0x${CryptoJS.lib.WordArray.random(20)}`;
-    const batchOrigin = batchAddress; // como não vamos dividir lotes no MVP, o lote de origin é igual ao batch address
+    if (supplier && items.length > 0) {
 
-    const response = await insertBatch(
-      batchAddress,
-      // supplier,
-      supplier,
-      batchOrigin,
-      geolocation,
-      '2',
-      document
-    );
+      const batchOrigin = batchAddress; // como não vamos dividir lotes no MVP, o lote de origin é igual ao batch address
 
-    console.log(response);
+      const response = await insertBatch(
+        batchAddress,
+        supplier,
+        batchOrigin,
+        geolocation,
+        '2',
+        document
+      );
 
-    saveBatch(response, batchAddress);
+      console.log(response);
+
+      saveBatch(response, batchAddress);
+    }
   };
 
   useEffect(() => {
@@ -172,7 +173,10 @@ export default function BatchRegistration() {
           value={batchAddress}
         />
         <S.Input placeholder="Geolocalização" disabled value={geolocation} />
-        <S.Select name="document_type">
+        <S.Select name="document_type" onChange={handleChange}>
+          <S.SelectOption value="">
+            Selecione o tipo de documento
+          </S.SelectOption>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
               {option}
