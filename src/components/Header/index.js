@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from '~/store/modules/auth/actions';
+
+import api from '~/services/api';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -40,6 +40,19 @@ function Header(props) {
   const dispatch = useDispatch();
   const selectedMenu = useSelector((state) => state.screen.selectedMenu);
   const { classes } = props;
+
+  api.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        dispatch(signOut());
+      }
+
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <>
