@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import api from '~/services/api';
+import api from "~/services/api";
 import {
   insertBatch,
   getCurrentProvider,
   insertVaccinate,
-} from '~/services/blockChain';
-import * as S from './styles';
+} from "~/services/blockChain";
+import * as S from "./styles";
 
-const CryptoJS = require('crypto-js');
+const CryptoJS = require("crypto-js");
 
-const DOCTYPES = ['cpf', 'RG', 'CNH', 'passport', 'other'];
+const DOCTYPES = ["cpf", "RG", "CNH", "passport", "other"];
 
 export default function VaccinateRegistration() {
   const [geolocation, setGeolocation] = useState([]);
   const [batches, setBatches] = useState([]);
   const [vaccines, setVaccines] = useState([]);
-  const [batchAddress, setBatchAddress] = useState('');
+  const [batchAddress, setBatchAddress] = useState("");
   const [formData, setFormData] = useState({});
 
   const generateBatchAddress = () => {
@@ -39,17 +39,17 @@ export default function VaccinateRegistration() {
   };
 
   const saveVaccinate = async (key) => {
-    console.log('key', key);
+    console.log("key", key);
 
     const { batch, vaccine, document, document_type } = formData;
 
-    console.log(vaccine, vaccines, batches, batchAddress)
+    console.log(vaccine, vaccines, batches, batchAddress);
 
-    const vaccine_name = vaccines.find(el => {
+    const vaccine_name = vaccines.find((el) => {
       return el.guid == vaccine;
     }).name;
 
-    const batchGuid = batches.find(el => {
+    const batchGuid = batches.find((el) => {
       return el.address == batch;
     }).guid;
 
@@ -59,14 +59,14 @@ export default function VaccinateRegistration() {
       document: document,
       document_type: document_type,
       geo: geolocation,
-      responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
+      responsible: "52a5d9cf-f99f-4018-8867-f635498802f1",
       transaction_id: key,
       vaccine: vaccine,
-      name: vaccine_name
+      name: vaccine_name,
     };
 
-    const response = await api.post('/vaccinate', payload);
-    console.log('vaccinate saved', response);
+    const response = await api.post("/vaccinate", payload);
+    console.log("vaccinate saved", response);
   };
 
   const handleClick = async () => {
@@ -79,7 +79,7 @@ export default function VaccinateRegistration() {
     const response = await insertVaccinate(
       vaccinateAddress,
       batch,
-      '',
+      "",
       document,
       vaccine
     );
@@ -91,7 +91,7 @@ export default function VaccinateRegistration() {
 
   useEffect(() => {
     const loadBatch = async () => {
-      const response = await api.get('/batch');
+      const response = await api.get("/batch");
 
       const batchList = response.data;
       setBatches(batchList);
@@ -102,7 +102,7 @@ export default function VaccinateRegistration() {
 
   useEffect(() => {
     const loadVaccine = async () => {
-      const response = await api.get('/vaccine');
+      const response = await api.get("/vaccine");
 
       const vaccineList = response.data;
       setVaccines(vaccineList);

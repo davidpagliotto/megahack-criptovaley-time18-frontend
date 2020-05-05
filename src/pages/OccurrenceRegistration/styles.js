@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const BatchWrapper = styled.div`
   width: 100%;
@@ -39,10 +39,26 @@ export const Input = styled.input`
   border: 1px solid #adafb4;
 `;
 
+export const TextArea = styled.textarea`
+  border: 1px solid #adafb4;
+  border-radius: 5px;
+  padding: 5px;
+`;
+
 export const PageActions = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
+  margin-top: 10px;
+  align-items: center;
+`;
+
+export const InputCheck = styled.input``;
+
+export const DethCheckContainer = styled.div``;
+
+export const LabelCheckInput = styled.label`
+  margin-left: 5px;
 `;
 
 export const ButtonConfirm = styled.button`

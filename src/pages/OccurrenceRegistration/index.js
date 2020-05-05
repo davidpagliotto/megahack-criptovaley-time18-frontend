@@ -1,86 +1,113 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import api from '~/services/api';
-import {
-  insertBatch,
-  getCurrentProvider,
-  insertOccurrence,
-} from '~/services/blockChain';
-import * as S from './styles';
+import api from "~/services/api";
+import { insertOccurrence } from "~/services/blockChain";
 
-const CryptoJS = require('crypto-js');
+import { toast } from "react-toastify";
 
-const DOCTYPES = ['NF', 'OUTROS'];
+import * as S from "./styles";
+
+const CryptoJS = require("crypto-js");
+
+const DOCTYPES = ["OCORRÊNCIA", "OUTROS"];
 
 export default function OccurrenceRegistration() {
   const [geolocation, setGeolocation] = useState([]);
   const [batches, setBatches] = useState([]);
   const [vaccines, setVaccines] = useState([]);
-  const [batchAddress, setBatchAddress] = useState('');
-  const [formData, setFormData] = useState({});
+  const [batchAddress, setBatchAddress] = useState("");
+
+  const [formData, setFormData] = useState({
+    document_type: "OCORRÊNCIA",
+    geo: "",
+  });
+
+  const [death, setDeath] = useState(false);
 
   const generateBatchAddress = () => {
     const address = CryptoJS.lib.WordArray.random(20);
 
     setFormData({
       ...formData,
-      address: String(address),
+      address: String(`0x${address}`),
     });
 
     return address;
   };
 
-  const handleChange = (event) => {
-    console.log(event.target.value);
+  const handleChangeSelectBatch = async (event) => {
+    const paramValue = event.target.value;
+
+    const batch = batches.find((item) => item.address === paramValue);
+
+    setBatchAddress(paramValue);
+
+    const response = await api.get(`/batch/${batch.guid}`);
+
     setFormData({
       ...formData,
+      batch: batch.guid,
+    });
+
+    setVaccines(response.data.items);
+  };
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      geo: geolocation,
       [event.target.name]: event.target.value,
     });
   };
 
-  const saveOccurrence = async (key) => {
-    console.log('key', key);
+  const handleClick = async () => {
+    const { address, document, document_type, vaccine } = formData;
 
-    const batch = batches.find((item) => item.address === formData.supplier);
+    try {
+      await insertOccurrence(
+        address,
+        batchAddress,
+        document,
+        document_type,
+        vaccine
+      );
+    } catch (error) {
+      toast.error(
+        "Erro ao transacionar ocorrência com ethereum, verifique os dados..."
+      );
+    }
 
-    const { document } = formData;
+    try {
+      await api.post("/occurrence", formData);
 
-    const payload = {
-      document_number: document,
-      document: null,
-      document_type: '1',
-      geo: 'casa do carai',
-      responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
-      transaction_id: key,
-    };
-
-    const response = await api.post('/occurrence', payload); //
-    console.log('occurrence saved', response); //
+      toast.success("Ocorrência salva com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao salvar ocorrência, verifique os dados...");
+    }
   };
 
-  const handleClick = async () => {
-    const { vaccine, document } = formData;
-
-    const occurrenceAddress = `0x${CryptoJS.lib.WordArray.random(20)}`;
-
-    const response = await insertOccurrence(
-      occurrenceAddress,
-      batchAddress,
-      '',
-      '2',
-      vaccine
+  const loadGeolocation = async () => {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        setGeolocation(
+          JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          })
+        );
+      },
+      function (error) {
+        console.error(`Error Code = ${error.code} - ${error.message}`);
+      }
     );
-
-    console.log(response);
-
-    saveOccurrence(response);
   };
 
   useEffect(() => {
-    const loadBatch = async () => {
-      const response = await api.get('/batch');
+    loadGeolocation();
 
+    const loadBatch = async () => {
       setBatchAddress(generateBatchAddress());
+      const response = await api.get("/batch");
 
       const batchList = response.data;
       setBatches(batchList);
@@ -89,43 +116,17 @@ export default function OccurrenceRegistration() {
     loadBatch();
   }, []);
 
-  useEffect(() => {
-    const loadVaccine = async () => {
-      const response = await api.get('/vaccine');
-
-      setBatchAddress(generateBatchAddress());
-
-      const vaccineList = response.data;
-      setVaccines(vaccineList);
-    };
-
-    loadVaccine();
-  }, []);
-
-  useEffect(() => {
-    const loadGeolocation = async () => {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          setGeolocation(
-            JSON.stringify({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            })
-          );
-        },
-        function (error) {
-          console.error(`Error Code = ${error.code} - ${error.message}`);
-        }
-      );
-    };
-
-    loadGeolocation();
-  }, []);
+  const handleChangeCheck = (event) => {
+    setFormData({
+      ...formData,
+      death: !death,
+    });
+  };
 
   return (
     <S.BatchWrapper>
       <S.BatchContent>
-        <S.Select name="batch" onChange={handleChange}>
+        <S.Select name="batch" onChange={handleChangeSelectBatch}>
           <S.SelectOption value="">Selecione um lote</S.SelectOption>
           {batches.map((item) => (
             <S.SelectOption key={item.guid} value={item.address}>
@@ -137,12 +138,12 @@ export default function OccurrenceRegistration() {
           <S.SelectOption value="">Selecione uma vacina</S.SelectOption>
           {vaccines.map((item) => (
             <S.SelectOption key={item.guid} value={item.guid}>
-              {item.name}
+              {item.vaccine_guid}
             </S.SelectOption>
           ))}
         </S.Select>
         <S.Input placeholder="Geolocalização" disabled value={geolocation} />
-        <S.Select>
+        <S.Select name="document_type" onChange={handleChange}>
           {DOCTYPES.map((option) => (
             <S.SelectOption key={option} value={option}>
               {option}
@@ -154,8 +155,26 @@ export default function OccurrenceRegistration() {
           placeholder="Número do Documento"
           onChange={handleChange}
         />
+        <S.TextArea
+          rows="6"
+          name="effects"
+          placeholder="Efeitos"
+          onChange={handleChange}
+        />
+
         <S.PageActions>
-          <S.ButtonConfirm type="button" onClick={handleClick}>
+          <S.DethCheckContainer>
+            <S.InputCheck
+              checked={death}
+              onClick={() => setDeath(!death)}
+              onChange={handleChangeCheck}
+              name="death"
+              id="death"
+              type="checkbox"
+            />
+            <S.LabelCheckInput htmlFor="death">Houve morte</S.LabelCheckInput>
+          </S.DethCheckContainer>
+          <S.ButtonConfirm onClick={handleClick} type="button">
             Salvar Ocorrência
           </S.ButtonConfirm>
         </S.PageActions>
