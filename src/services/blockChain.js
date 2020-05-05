@@ -1,11 +1,10 @@
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from '~/config/BlockchainConfig';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from "~/config/BlockchainConfig";
 
-const Web3 = require('web3');
-const CryptoJS = require('crypto-js');
+const Web3 = require("web3");
+const CryptoJS = require("crypto-js");
 
 export const getCurrentProvider = () => {
   const provider = window.web3.currentProvider;
-  console.log('getCurrentProvider', provider);
   return provider;
 };
 
@@ -18,13 +17,11 @@ export const getContract = () => {
 export const getAccount = async () => {
   const web3 = new Web3(getCurrentProvider());
   const account = await web3.eth.getAccounts();
-  console.log('getAccount', account[0]);
   return account[0];
 };
 
 export const getBatchCount = async () => {
   const batchCount = await getContract().methods.getBatchCount().call();
-  console.log('batchCount = ', batchCount);
   return batchCount;
 };
 
@@ -50,23 +47,19 @@ export const insertBatch = async (
 
   const account = await getAccount();
 
-  console.log(account);
-
   const p = new Promise((resolve, reject) => {
     getContract()
-    .methods.insertBatch(...batchParam)
-    .send({
-      from: account,
-    })
-    .on('transactionHash', (hash) => {
-      // TODO: Enviar essa hash para API
-      console.log('TransactionHash', hash, batchParam);
-      resolve(hash)
-    });
+      .methods.insertBatch(...batchParam)
+      .send({
+        from: account,
+      })
+      .on("transactionHash", (hash) => {
+        // TODO: Enviar essa hash para API
+        resolve(hash);
+      });
   });
 
-  return p
-
+  return p;
 };
 
 export const insertTransactionBatch = async (batchAddress) => {
@@ -83,14 +76,13 @@ export const insertTransactionBatch = async (batchAddress) => {
       .send({
         from: account,
       })
-      .on('transactionHash', (hash) => {
+      .on("transactionHash", (hash) => {
         // TODO: Enviar essa hash para API
-        console.log('TransactionHash', hash, transactionBatchParam);
-        resolve(hash)
+        resolve(hash);
       });
   });
 
-  return p
+  return p;
 };
 
 export const insertVaccinate = async (
@@ -116,14 +108,13 @@ export const insertVaccinate = async (
       .send({
         from: account,
       })
-      .on('transactionHash', (hash) => {
+      .on("transactionHash", (hash) => {
         // TODO: Enviar essa hash para API
-        console.log('TransactionHash', hash, vaccinateParams);
-        resolve(hash)
+        resolve(hash);
       });
   });
 
-  return p
+  return p;
 };
 
 export const addHealthFacilities = async (address) => {
@@ -134,10 +125,8 @@ export const addHealthFacilities = async (address) => {
     .send({
       from: account,
     })
-    .on('transactionHash', (hash) => {
-      console.log('TransactionHash', hash);
-    });
-}
+    .on("transactionHash", (hash) => {});
+};
 
 export const insertOccurrence = async (
   occurrenceAddress,
@@ -162,12 +151,11 @@ export const insertOccurrence = async (
       .send({
         from: account,
       })
-      .on('transactionHash', (hash) => {
+      .on("transactionHash", (hash) => {
         // TODO: Enviar essa hash para API
-        console.log('TransactionHash', hash, occurrenceParams);
-        resolve(hash)
+        resolve(hash);
       });
   });
 
-  return p
+  return p;
 };

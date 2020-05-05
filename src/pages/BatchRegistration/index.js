@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import api from '~/services/api';
-import { insertBatch } from '~/services/blockChain';
-import * as S from './styles';
+import { toast } from "react-toastify";
+import api from "~/services/api";
+import { insertBatch } from "~/services/blockChain";
+import * as S from "./styles";
 
-const CryptoJS = require('crypto-js');
+const CryptoJS = require("crypto-js");
 
-const DOCTYPES = ['NF', 'OUTROS'];
+const DOCTYPES = ["NF", "OUTROS"];
 
 export default function BatchRegistration() {
   const [geolocation, setGeolocation] = useState([]);
   const [suppliers, setsuppliers] = useState([]);
-  const [batchAddress, setBatchAddress] = useState('');
+  const [batchAddress, setBatchAddress] = useState("");
   const [formData, setFormData] = useState({});
   const [items, setItems] = useState([]);
   const [vaccines, setVaccines] = useState([]);
@@ -43,11 +44,9 @@ export default function BatchRegistration() {
       vaccine_guid || novosItems[index].vaccine_guid;
     novosItems[index].quantity = quantity || novosItems[index].quantity;
     setItems(novosItems);
-    console.log(items);
   };
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
@@ -55,14 +54,9 @@ export default function BatchRegistration() {
   };
 
   const saveBatch = async (key) => {
-    console.log('key', key);
-    console.log('formData.supplier', formData.supplier);
-
     const supplier = suppliers.find(
       (item) => item.address === formData.supplier
     );
-
-    console.log(supplier);
 
     const { document, document_type } = formData;
 
@@ -76,22 +70,23 @@ export default function BatchRegistration() {
       document: null,
       document_type: document_type,
       geo: geolocation,
-      responsible: '52a5d9cf-f99f-4018-8867-f635498802f1',
+      responsible: "52a5d9cf-f99f-4018-8867-f635498802f1",
       items: itemsMapped,
       transaction_id: key,
     };
 
-    const response = await api.post('/batch', payload);
-    console.log('Saved batch in API:', response);
+    try {
+      await api.post("/batch", payload);
+      toast.success("Lote salvo com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao savar o lote, verifique os dados inseridos...");
+    }
   };
 
   const handleClick = async () => {
     const { supplier, document, document_type } = formData;
 
-    console.log(supplier, items, document_type, document);
-
     if (supplier && items.length > 0) {
-
       const batchOrigin = batchAddress; // como não vamos dividir lotes no MVP, o lote de origin é igual ao batch address
 
       const response = await insertBatch(
@@ -99,19 +94,21 @@ export default function BatchRegistration() {
         supplier,
         batchOrigin,
         geolocation,
-        '2',
+        "2",
         document
       );
 
-      console.log(response);
-
-      saveBatch(response, batchAddress);
+      try {
+        saveBatch(response, batchAddress);
+      } catch (error) {
+        toast.error("Erro ao transacionar lote com o rede ethereum");
+      }
     }
   };
 
   useEffect(() => {
     const loadSupplier = async () => {
-      const response = await api.get('/vaccine');
+      const response = await api.get("/vaccine");
 
       const vaccinesList = response.data;
       setVaccines(vaccinesList);
@@ -122,7 +119,7 @@ export default function BatchRegistration() {
 
   useEffect(() => {
     const loadSupplier = async () => {
-      const response = await api.get('/person?person_type=pj');
+      const response = await api.get("/person?person_type=pj");
 
       setBatchAddress(generateBatchAddress());
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import api from "~/services/api";
 import {
@@ -31,7 +32,6 @@ export default function VaccinateRegistration() {
   };
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
@@ -39,11 +39,7 @@ export default function VaccinateRegistration() {
   };
 
   const saveVaccinate = async (key) => {
-    console.log("key", key);
-
     const { batch, vaccine, document, document_type } = formData;
-
-    console.log(vaccine, vaccines, batches, batchAddress);
 
     const vaccine_name = vaccines.find((el) => {
       return el.guid == vaccine;
@@ -65,28 +61,33 @@ export default function VaccinateRegistration() {
       name: vaccine_name,
     };
 
-    const response = await api.post("/vaccinate", payload);
-    console.log("vaccinate saved", response);
+    try {
+      await api.post("/vaccinate", payload);
+      toast.success("Vacina salva com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao salvar a vacina, verique os dados inseridos...");
+    }
   };
 
   const handleClick = async () => {
     const { batch, vaccine, document } = formData;
 
-    console.log(batch, vaccine, document);
-
     const vaccinateAddress = `0x${CryptoJS.lib.WordArray.random(20)}`;
 
-    const response = await insertVaccinate(
-      vaccinateAddress,
-      batch,
-      "",
-      document,
-      vaccine
-    );
-
-    console.log(response);
-
-    saveVaccinate(response);
+    try {
+      const response = await insertVaccinate(
+        vaccinateAddress,
+        batch,
+        "",
+        document,
+        vaccine
+      );
+      saveVaccinate(response);
+    } catch (error) {
+      toast.error(
+        "Erro ao transacionar vacina com ethereum, verifique os dados..."
+      );
+    }
   };
 
   useEffect(() => {

@@ -8,7 +8,6 @@ export default function VaccinateList() {
   const [vaccinates, setVaccinates] = useState([]);
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,

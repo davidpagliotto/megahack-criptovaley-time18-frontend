@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-import { addHealthFacilities } from '~/services/blockChain';
-import * as S from './styles';
+import { addHealthFacilities } from "~/services/blockChain";
+import * as S from "./styles";
 
 export default function HealthFacilityPermission() {
   const [formData, setFormData] = useState({});
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
@@ -17,9 +17,13 @@ export default function HealthFacilityPermission() {
   const handleClick = async () => {
     const { address } = formData;
 
-    const response = await addHealthFacilities(address);
-
-    console.log(response);
+    try {
+      await addHealthFacilities(address);
+    } catch (error) {
+      toast.error(
+        "Erro ao salvar Unidade de saúde, verifique os dados inseridos...."
+      );
+    }
   };
 
   return (

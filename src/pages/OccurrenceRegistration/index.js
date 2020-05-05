@@ -20,6 +20,7 @@ export default function OccurrenceRegistration() {
   const [formData, setFormData] = useState({
     document_type: "OCORRÊNCIA",
     geo: "",
+    death: false,
   });
 
   const [death, setDeath] = useState(false);
